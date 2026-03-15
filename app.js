@@ -356,7 +356,7 @@ function initPhotoUpload() {
   const status = document.getElementById('upload-status');
   if (!area || !input) return;
 
-  area.addEventListener('click', () => input.click());
+  // No click handler needed — <label for="photo-input"> handles it natively
   area.addEventListener('dragover', e => { e.preventDefault(); area.classList.add('dragover'); });
   area.addEventListener('dragleave', () => area.classList.remove('dragover'));
   area.addEventListener('drop', e => {
@@ -364,13 +364,9 @@ function initPhotoUpload() {
     area.classList.remove('dragover');
     handleFiles(e.dataTransfer.files);
   });
-  input.addEventListener('change', () => handleFiles(input.files));
+  input.addEventListener('change', () => { handleFiles(input.files); input.value = ''; });
 
   function handleFiles(files) {
-    if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL') {
-      status.innerHTML = '<div class="upload-progress">Apps Script URL not configured yet</div>';
-      return;
-    }
     Array.from(files).forEach(file => {
       if (!file.type.startsWith('image/')) return;
       const reader = new FileReader();
@@ -383,6 +379,7 @@ function initPhotoUpload() {
         const base64 = reader.result.split(',')[1];
         fetch(APPS_SCRIPT_URL, {
           method: 'POST',
+          mode: 'no-cors',
           body: JSON.stringify({ file: base64, fileName: file.name, mimeType: file.type }),
         })
         .then(() => { item.textContent = `${file.name} — ${translations[currentLang].photo_done}`; })
