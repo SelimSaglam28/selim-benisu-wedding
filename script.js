@@ -405,56 +405,48 @@ async function initSTLViewer() {
   });
 }
 
-// ---------- Butterfly ----------
+// ---------- Butterfly (3D CSS) ----------
 function initButterfly() {
   if (window.innerWidth < 768 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const el = document.createElement('div');
   el.className = 'butterfly';
-  el.innerHTML = `<svg width="36" height="28" viewBox="0 0 36 28">
-    <g class="butterfly-wing">
-      <path d="M18,14 Q12,2 4,4 Q0,6 1,12 Q2,18 10,16 Q14,15 18,14" fill="#C4A265" opacity="0.7"/>
-      <path d="M18,14 Q14,20 6,24 Q2,26 4,20 Q6,16 12,16 Q15,15 18,14" fill="#C4A265" opacity="0.5"/>
-    </g>
-    <g class="butterfly-wing right">
-      <path d="M18,14 Q24,2 32,4 Q36,6 35,12 Q34,18 26,16 Q22,15 18,14" fill="#C4A265" opacity="0.7"/>
-      <path d="M18,14 Q22,20 30,24 Q34,26 32,20 Q30,16 24,16 Q21,15 18,14" fill="#C4A265" opacity="0.5"/>
-    </g>
-    <ellipse cx="18" cy="14" rx="1" ry="6" fill="#C4A265" opacity="0.8"/>
-    <line x1="17" y1="8" x2="14" y2="3" stroke="#C4A265" stroke-width="0.5" opacity="0.6"/>
-    <line x1="19" y1="8" x2="22" y2="3" stroke="#C4A265" stroke-width="0.5" opacity="0.6"/>
-  </svg>`;
+  el.innerHTML = `
+    <div class="butterfly-wings">
+      <div class="butterfly-wing-l"><div class="wing-top"></div><div class="wing-bottom"></div></div>
+      <div class="butterfly-wing-r"><div class="wing-top"></div><div class="wing-bottom"></div></div>
+    </div>
+    <div class="butterfly-body"></div>`;
   document.body.appendChild(el);
 
-  let x = Math.random() * window.innerWidth;
-  let y = Math.random() * window.innerHeight * 0.6 + 50;
+  let x = Math.random() * window.innerWidth * 0.8 + window.innerWidth * 0.1;
+  let y = Math.random() * window.innerHeight * 0.5 + 100;
   let vx = (Math.random() - 0.5) * 1.5;
   let vy = (Math.random() - 0.5) * 0.8;
   let targetVx = vx, targetVy = vy;
-  let t = 0;
+  let t = Math.random() * 100;
 
-  // Change direction every few seconds
   setInterval(() => {
-    targetVx = (Math.random() - 0.5) * 2;
-    targetVy = (Math.random() - 0.5) * 1.2;
-  }, 3000 + Math.random() * 4000);
+    targetVx = (Math.random() - 0.5) * 2.5;
+    targetVy = (Math.random() - 0.5) * 1.5;
+  }, 2500 + Math.random() * 3000);
 
   function animate() {
-    t += 0.02;
-    // Smoothly steer towards target direction
-    vx += (targetVx - vx) * 0.01;
-    vy += (targetVy - vy) * 0.01;
-    // Add gentle wavering
-    x += vx + Math.sin(t * 1.5) * 0.4;
-    y += vy + Math.cos(t * 1.1) * 0.3;
-    // Wrap around edges
-    if (x < -40) x = window.innerWidth + 40;
-    if (x > window.innerWidth + 40) x = -40;
-    if (y < -40) y = window.innerHeight * 0.7;
-    if (y > window.innerHeight * 0.7) y = -40;
-    // Rotate in flight direction
-    const angle = Math.atan2(vy + Math.cos(t * 1.1) * 0.3, vx + Math.sin(t * 1.5) * 0.4) * (180 / Math.PI);
-    el.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
+    t += 0.018;
+    vx += (targetVx - vx) * 0.012;
+    vy += (targetVy - vy) * 0.012;
+    x += vx + Math.sin(t * 1.3) * 0.5;
+    y += vy + Math.cos(t * 0.9) * 0.4;
+    // Wrap around
+    const W = window.innerWidth, H = window.innerHeight;
+    if (x < -50) x = W + 50;
+    if (x > W + 50) x = -50;
+    if (y < -50) y = H * 0.6;
+    if (y > H * 0.65) y = -50;
+    const angle = Math.atan2(vy + Math.cos(t * 0.9) * 0.4, vx + Math.sin(t * 1.3) * 0.5) * (180 / Math.PI);
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    el.style.transform = `rotate(${angle + 90}deg)`;
     requestAnimationFrame(animate);
   }
   animate();
