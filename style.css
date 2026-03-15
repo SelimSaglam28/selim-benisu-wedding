@@ -752,6 +752,26 @@ section {
 .flag-emblem { opacity: 0.6; transition: opacity 0.3s; }
 .flag-emblem:hover { opacity: 0.9; }
 
+/* ========== BUTTERFLY ========== */
+.butterfly {
+  position: fixed;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.2;
+  transition: opacity 0.5s;
+}
+.butterfly-wing {
+  animation: flap 0.35s ease-in-out infinite alternate;
+  transform-origin: right center;
+}
+.butterfly-wing.right {
+  transform-origin: left center;
+}
+@keyframes flap {
+  0% { transform: scaleX(1) rotateY(0deg); }
+  100% { transform: scaleX(0.25) rotateY(60deg); }
+}
+
 /* ========== FADE IN ========== */
 .fade-in {
   opacity: 0;
