@@ -348,7 +348,7 @@ function initMusic() {
 }
 
 // ---------- Photo Upload ----------
-const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL'; // Replace with your Google Apps Script URL
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyCcNmj-vOy2oxurpI2-FHoTQesgoPIV-cKvlro1txfLHppzVftml7ASuzA0DuQ33IJ/exec';
 
 function initPhotoUpload() {
   const area = document.getElementById('upload-area');
