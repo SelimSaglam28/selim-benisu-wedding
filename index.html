@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selim & Benisu Bartin — 12.09.2026</title>
+  <meta name="description" content="Hochzeitseinladung von Selim & Benisu Bartin — 12. September 2026">
+  <meta property="og:title" content="Selim & Benisu heiraten!">
+  <meta property="og:description" content="12. September 2026 — Feiert mit uns!">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ==================== LOADING SCREEN ==================== -->
+<div id="loading-screen">
+  <div class="loading-content">
+    <svg class="loading-heart" viewBox="0 0 60 55" width="60" height="55">
+      <path d="M30,50 Q5,30 5,15 Q5,0 17.5,0 Q25,0 30,8 Q35,0 42.5,0 Q55,0 55,15 Q55,30 30,50 Z" fill="none" stroke="#C4A265" stroke-width="2"/>
+    </svg>
+    <div class="loading-initials">S &amp; B</div>
+  </div>
+</div>
+
+<!-- Background Canvases -->
+<canvas id="particles"></canvas>
+<canvas id="waves"></canvas>
+<canvas id="confetti-canvas"></canvas>
+
+<!-- Language Toggle -->
+<button class="lang-toggle" data-i18n="lang_btn">TR</button>
+
+<!-- Navigation -->
+<nav class="nav">
+  <a href="#details" data-i18n="nav_details">Details</a>
+  <a href="#ablauf" data-i18n="nav_ablauf">Ablauf</a>
+  <a href="#rsvp" data-i18n="nav_rsvp">RSVP</a>
+  <a href="#3d-preview" data-i18n="nav_3d">3D</a>
+  <a href="#bartin-map" data-i18n="nav_bartin">Bartin</a>
+  <a href="#faq" data-i18n="nav_faq">FAQ</a>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero" id="hero">
+  <!-- Amasra Silhouette Background -->
+  <div class="amasra-silhouette" data-parallax="0.15">
+    <svg viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+      <!-- Sea base -->
+      <path d="M0,280 Q100,270 200,280 Q300,290 400,280 Q500,270 600,280 Q700,290 800,280 Q900,270 1000,280 Q1100,290 1200,280 L1200,300 L0,300 Z" fill="rgba(196,162,101,0.04)"/>
+      <!-- Distant mountains (Küre) -->
+      <path d="M0,220 L80,170 L140,190 L200,140 L280,175 L340,130 L420,160 L500,120 L560,155 L620,135 L700,110 L780,145 L840,125 L920,150 L980,130 L1060,160 L1120,140 L1200,170 L1200,300 L0,300 Z" fill="rgba(196,162,101,0.025)"/>
+      <!-- Amasra peninsula with castle -->
+      <path d="M350,260 L370,240 L380,245 L400,210 L410,215 L420,190 L430,185 L435,195 L445,180 L450,182 L455,170 L460,172 L465,160 L470,158 L472,162 L478,155 L485,160 L490,170 L500,175 L510,168 L520,172 L525,180 L530,185 L540,190 L555,200 L570,210 L590,225 L610,235 L640,245 L670,255 L700,260" fill="rgba(196,162,101,0.035)"/>
+      <!-- Castle towers on peninsula -->
+      <rect x="452" y="148" width="8" height="22" fill="rgba(196,162,101,0.04)"/>
+      <rect x="470" y="145" width="6" height="18" fill="rgba(196,162,101,0.04)"/>
+      <rect x="485" y="150" width="7" height="16" fill="rgba(196,162,101,0.04)"/>
+      <!-- Bridge to island -->
+      <path d="M520,178 Q540,172 560,178" fill="none" stroke="rgba(196,162,101,0.04)" stroke-width="3"/>
+      <!-- Small island -->
+      <path d="M555,200 Q570,175 585,178 Q600,180 605,200 Q600,210 590,215 Q575,218 560,210 Z" fill="rgba(196,162,101,0.03)"/>
+      <!-- Harbor area -->
+      <path d="M380,260 Q390,252 400,255 Q410,248 420,252 L430,260" fill="none" stroke="rgba(196,162,101,0.03)" stroke-width="2"/>
+      <!-- Waves -->
+      <path d="M0,275 Q50,268 100,275 Q150,282 200,275 Q250,268 300,275 Q350,282 400,275 Q450,268 500,275 Q550,282 600,275 Q650,268 700,275 Q750,282 800,275 Q850,268 900,275 Q950,282 1000,275 Q1050,268 1100,275 Q1150,282 1200,275" fill="none" stroke="rgba(196,162,101,0.04)" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <div class="fade-in">
+    <p class="hero-label" data-i18n="hero_label">Hochzeitseinladung</p>
+  </div>
+  <div class="fade-in">
+    <p class="hero-subtitle" data-i18n="hero_subtitle">Wir heiraten</p>
+  </div>
+  <div class="fade-in" data-parallax="0.08">
+    <div class="hero-name">Selim</div>
+    <div class="hero-ampersand" data-i18n="hero_ampersand">&amp;</div>
+    <div class="hero-name">Benisu</div>
+    <div class="hero-family" data-i18n="hero_family">BARTIN</div>
+  </div>
+  <div class="fade-in">
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-line"></div>
+    </div>
+  </div>
+  <div class="fade-in">
+    <div class="heart">&#9829;</div>
+  </div>
+  <div class="fade-in">
+    <div class="countdown">
+      <div class="countdown-item">
+        <span class="countdown-number" id="days">---</span>
+        <span class="countdown-unit" data-i18n="cd_days">Tage</span>
+      </div>
+      <div class="countdown-item">
+        <span class="countdown-number" id="hours">--</span>
+        <span class="countdown-unit" data-i18n="cd_hours">Std</span>
+      </div>
+      <div class="countdown-item">
+        <span class="countdown-number" id="minutes">--</span>
+        <span class="countdown-unit" data-i18n="cd_min">Min</span>
+      </div>
+      <div class="countdown-item">
+        <span class="countdown-number" id="seconds">--</span>
+        <span class="countdown-unit" data-i18n="cd_sec">Sek</span>
+      </div>
+    </div>
+  </div>
+  <div class="fade-in">
+    <div class="infinity-badge">
+      <span class="infinity-letter">S</span>
+      <svg class="infinity-sign" viewBox="0 0 80 40" width="50" height="25">
+        <path d="M40,20 C40,8 28,8 20,15 C12,22 8,28 8,20 C8,12 14,8 20,15 M40,20 C40,32 52,32 60,25 C68,18 72,12 72,20 C72,28 66,32 60,25" fill="none" stroke="#C4A265" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span class="infinity-letter">B</span>
+    </div>
+  </div>
+  <a href="#monogram" class="scroll-arrow">&#8595;</a>
+</section>
+
+<!-- ==================== ANIMATED MONOGRAM ==================== -->
+<section id="monogram" class="monogram-section">
+  <div class="fade-in">
+    <svg class="monogram-svg" viewBox="0 0 440 140" width="440" height="140">
+      <!-- S -->
+      <path class="mono-letter" d="M55,110 Q18,110 18,85 Q18,60 55,60 Q92,60 92,42 Q92,18 55,18 Q32,18 22,32" fill="none" stroke="#C4A265" stroke-width="3" stroke-linecap="round"/>
+      <!-- ∞ -->
+      <path class="mono-letter" d="M175,65 C175,40 200,35 215,50 C230,65 230,65 245,50 C260,35 285,40 285,65 C285,90 260,95 245,80 C230,65 230,65 215,80 C200,95 175,90 175,65 Z" fill="none" stroke="#C4A265" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- B -->
+      <path class="mono-letter" d="M340,110 L340,18 L375,18 Q408,18 408,42 Q408,60 380,62 Q414,65 414,88 Q414,110 375,110 Z" fill="none" stroke="#C4A265" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ==================== EVENT DETAILS ==================== -->
+<section id="details">
+  <div class="fade-in">
+    <p class="section-label" data-i18n="event_label">Die Feier</p>
+    <h2 class="section-title" data-i18n="event_title">Wann &amp; Wo</h2>
+  </div>
+  <div class="fade-in">
+    <div class="details-grid">
+      <div class="detail-item">
+        <div class="detail-icon">&#128197;</div>
+        <div class="detail-label" data-i18n="detail_date_label">Datum</div>
+        <div class="detail-value" data-i18n="detail_date_value">12. September 2026</div>
+        <div class="detail-sub" data-i18n="detail_date_sub">Samstag</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">&#128336;</div>
+        <div class="detail-label" data-i18n="detail_time_label">Uhrzeit</div>
+        <div class="detail-value" data-i18n="detail_time_value">14:00 Uhr</div>
+        <div class="detail-sub" data-i18n="detail_time_sub">Einlass ab 13:30</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">&#127968;</div>
+        <div class="detail-label" data-i18n="detail_location_label">Location</div>
+        <div class="detail-value" data-i18n="detail_location_value">Wird noch bekannt gegeben</div>
+        <div class="detail-sub" data-i18n="detail_location_sub">Details folgen</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">&#128084;</div>
+        <div class="detail-label" data-i18n="detail_dresscode_label">Dresscode</div>
+        <div class="detail-value" data-i18n="detail_dresscode_value">Festlich elegant</div>
+        <div class="detail-sub" data-i18n="detail_dresscode_sub">Farben frei wählbar</div>
+      </div>
+    </div>
+  </div>
+  <div class="fade-in" style="margin-top: 40px;">
+    <button class="btn btn-outline" id="cal-btn" data-i18n="cal_btn">Im Kalender speichern</button>
+  </div>
+</section>
+
+<!-- ==================== TIMELINE ==================== -->
+<section id="ablauf">
+  <div class="fade-in">
+    <p class="section-label" data-i18n="timeline_label">Programm</p>
+    <h2 class="section-title" data-i18n="timeline_title">Unser Tag</h2>
+  </div>
+  <div class="fade-in">
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time" data-i18n="tl1_time">14:00</div><div class="timeline-title" data-i18n="tl1_title">Trauung</div><div class="timeline-desc" data-i18n="tl1_desc">Die feierliche Zeremonie</div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time" data-i18n="tl2_time">15:30</div><div class="timeline-title" data-i18n="tl2_title">Empfang</div><div class="timeline-desc" data-i18n="tl2_desc">Sektempfang &amp; Gratulation</div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time" data-i18n="tl3_time">17:00</div><div class="timeline-title" data-i18n="tl3_title">Abendessen</div><div class="timeline-desc" data-i18n="tl3_desc">Gemeinsames Festmahl</div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-time" data-i18n="tl4_time">20:00</div><div class="timeline-title" data-i18n="tl4_title">Party</div><div class="timeline-desc" data-i18n="tl4_desc">Tanzen bis in die Nacht</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== RSVP ==================== -->
+<section id="rsvp">
+  <div class="fade-in">
+    <p class="section-label" data-i18n="rsvp_label">Zusage</p>
+    <h2 class="section-title" data-i18n="rsvp_title">Seid ihr dabei?</h2>
+  </div>
+  <div class="fade-in">
+    <form class="rsvp-form" id="rsvp-form" action="#" method="POST">
+      <div class="form-group"><label class="form-label" data-i18n="rsvp_name">Euer Name</label><input class="form-input" type="text" name="name" required data-i18n="rsvp_name_ph"></div>
+      <div class="form-group"><label class="form-label" data-i18n="rsvp_guests">Anzahl Personen</label><select class="form-select" name="guests"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option><option value="5+">5+</option></select></div>
+      <div class="form-group"><label class="form-label" data-i18n="rsvp_attend">Zusage</label><div class="form-radio-group"><label class="form-radio"><input type="radio" name="attending" value="yes" checked><span data-i18n="rsvp_yes">Wir kommen gerne</span></label><label class="form-radio"><input type="radio" name="attending" value="no"><span data-i18n="rsvp_no">Leider nicht</span></label></div></div>
+      <div class="form-group"><label class="form-label" data-i18n="rsvp_food">Essenswünsche</label><select class="form-select" name="food"><option value="none" data-i18n-value="rsvp_food_none">Keine besonderen Wünsche</option><option value="vegetarian" data-i18n-value="rsvp_food_veg">Vegetarisch</option><option value="vegan" data-i18n-value="rsvp_food_vegan">Vegan</option><option value="halal" data-i18n-value="rsvp_food_halal">Halal</option></select></div>
+      <div class="form-group"><label class="form-label" data-i18n="rsvp_allergies">Allergien / Anmerkungen</label><textarea class="form-textarea" name="allergies" data-i18n="rsvp_allergies_ph"></textarea></div>
+      <button type="submit" class="btn" data-i18n="rsvp_submit">Absenden</button>
+    </form>
+    <div class="form-success" id="rsvp-success">
+      <div class="check" data-i18n="rsvp_success_icon">&#10003;</div>
+      <h3 class="section-title" data-i18n="rsvp_success_title">Vielen Dank!</h3>
+      <p style="color:var(--cream);font-size:18px;font-weight:300;" data-i18n="rsvp_success_text">Eure Antwort ist bei uns angekommen. Wir freuen uns auf euch!</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== MUSIC ==================== -->
+<section id="musik">
+  <div class="fade-in">
+    <p class="section-label" data-i18n="music_label">Musikwünsche</p>
+    <h2 class="section-title" data-i18n="music_title">Was sollen wir spielen?</h2>
+  </div>
+  <div class="fade-in">
+    <form class="music-form" id="music-form" action="#" method="POST">
+      <div class="form-group"><label class="form-label" data-i18n="music_name">Euer Name</label><input class="form-input" type="text" name="name" required></div>
+      <div class="form-group"><label class="form-label" data-i18n="music_song">Song-Wunsch</label><input class="form-input" type="text" name="song" required data-i18n="music_song_ph"></div>
+      <button type="submit" class="btn btn-outline" data-i18n="music_submit">Wunsch absenden</button>
+    </form>
+  </div>
+</section>
+
+<!-- ==================== 3D PREVIEW ==================== -->
+<section id="3d-preview">
+  <div class="fade-in">
+    <p class="section-label" data-i18n="3d_label">Einladungskarte</p>
+    <h2 class="section-title" data-i18n="3d_title">Unsere Einladung in 3D</h2>
+  </div>
+  <div class="fade-in">
+    <div id="stl-viewer"></div>
+    <p class="stl-hint" data-i18n="3d_hint">Drehen &amp; Zoomen mit Maus oder Touch</p>
+  </div>
+</section>
+
+<!-- ==================== BARTIN MAP ==================== -->
+<section id="bartin-map">
+  <div class="fade-in">
+    <p class="section-label" data-i18n="bartin_label">Unsere Heimat</p>
+    <h2 class="section-title" data-i18n="bartin_title">Bartin, Karadeniz</h2>
+  </div>
+  <div class="fade-in">
+    <svg class="bartin-map-svg" viewBox="1095 295 100 40" preserveAspectRatio="xMidYMid meet">
+      <!-- Echter Türkei-Umriss -->
+      <path d="M1166.6 308.9l-9.7-4.4-8.5.2-5.7 1.7-5.6 4-9.9-.8-1.6 4.8-7.9.2-5.1 6.1 3.6 3-2 5 4.2 3.6 3.7 6.4 5.8-.1 5.4 3.5 3.6-.8.9-2.7 5.7.2 4.6 3.5 8-.7 3.1-3.7 4.6 1.5 3.2-.6-1.7 2.4 2.3 3 1.2-1.4 1.2-1.5-.1-3.6 1.9 1.3 5.5-1.8 3 1.2h4.3l5.7-2.5 2.8.2 5.9-1.1 2.1-1 6.2.9 2.1 1.6 2.3-1.1-3.7-5.2.7-2-2.9-7.3 3.3-1.8-2.4-1.9-4.2-1.5v-3.1l-1.3-2.2-5.6-3-5.4.3-5.5 3.2-4.5-.6-5.8 1-7.8-2.4z" fill="rgba(196,162,101,0.08)" stroke="#C4A265" stroke-width="0.5" opacity="0.8"/>
+      <!-- Thrakien (europäischer Teil) -->
+      <path d="M1117 312.9l2-1.9 6.1-.4.7-1.5-4.7-2-.9-2.4-4.5-.8-5 2 2.7 1.6-1.2 3.9-1.1.7.1 1.3 1.9 2.9 3.9-3.4z" fill="rgba(196,162,101,0.08)" stroke="#C4A265" stroke-width="0.5" opacity="0.8"/>
+
+      <!-- BARTIN Punkt (Nordküste, ca. 32.3°E 41.6°N) -->
+      <circle cx="1148" cy="306.5" r="1.5" fill="none" stroke="#C4A265" stroke-width="0.4" class="bartin-pulse"/>
+      <circle cx="1148" cy="306.5" r="0.6" fill="#C4A265"/>
+      <text x="1148" y="305" text-anchor="middle" class="map-city-label map-city-main" style="font-size:2.5px;letter-spacing:0.8px">BARTIN</text>
+
+      <!-- Istanbul -->
+      <circle cx="1125" cy="309" r="0.4" fill="#C4A265" opacity="0.4"/>
+      <text x="1125" y="312" text-anchor="middle" class="map-city-label map-city-small" style="font-size:1.8px">Istanbul</text>
+
+      <!-- Ankara -->
+      <circle cx="1155" cy="316" r="0.4" fill="#C4A265" opacity="0.4"/>
+      <text x="1155" y="318.5" text-anchor="middle" class="map-city-label map-city-small" style="font-size:1.8px">Ankara</text>
+
+      <!-- Karadeniz Label -->
+      <text x="1155" y="301" text-anchor="middle" class="map-sea-label" style="font-size:2.5px;letter-spacing:1.5px" data-i18n="map_sea">SCHWARZES MEER</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ==================== TRAVEL ==================== -->
+<section id="anreise">
+  <div class="fade-in">
+    <p class="section-label" data-i18n="travel_label">Anreise &amp; Unterkunft</p>
+    <h2 class="section-title" data-i18n="travel_title">So kommt ihr hin</h2>
+  </div>
+  <div class="fade-in">
+    <div class="travel-cards">
+      <div class="travel-card"><div class="travel-card-icon">&#128663;</div><div class="travel-card-title" data-i18n="travel_car_title">Mit dem Auto</div><div class="travel-card-text" data-i18n="travel_car_text">Details zur Anfahrt folgen</div></div>
+      <div class="travel-card"><div class="travel-card-icon">&#127976;</div><div class="travel-card-title" data-i18n="travel_hotel_title">Übernachtung</div><div class="travel-card-text" data-i18n="travel_hotel_text">Hotelempfehlungen folgen</div></div>
+      <div class="travel-card"><div class="travel-card-icon">&#127359;&#65039;</div><div class="travel-card-title" data-i18n="travel_parking_title">Parken</div><div class="travel-card-text" data-i18n="travel_parking_text">Parkplätze vorhanden</div></div>
+    </div>
+  </div>
+  <div class="fade-in">
+    <div class="map-placeholder" data-i18n="map_text">Google Maps wird hier eingebettet</div>
+  </div>
+</section>
+
+<!-- ==================== FAQ ==================== -->
+<section id="faq">
+  <div class="fade-in">
+    <p class="section-label" data-i18n="faq_label">Fragen &amp; Antworten</p>
+    <h2 class="section-title" data-i18n="faq_title">Häufige Fragen</h2>
+  </div>
+  <div class="fade-in">
+    <div class="faq-list">
+      <div class="faq-item"><button class="faq-question" data-i18n="faq1_q">Was ist der Dresscode?</button><div class="faq-answer" data-i18n="faq1_a">Festlich elegant. Tragt, worin ihr euch wohlfühlt — Hauptsache, ihr feiert mit uns!</div></div>
+      <div class="faq-item"><button class="faq-question" data-i18n="faq2_q">Dürfen wir unsere Kinder mitbringen?</button><div class="faq-answer" data-i18n="faq2_a">Natürlich! Kinder sind herzlich willkommen.</div></div>
+      <div class="faq-item"><button class="faq-question" data-i18n="faq3_q">Gibt es Parkplätze?</button><div class="faq-answer" data-i18n="faq3_a">Ja, ausreichend Parkplätze stehen direkt an der Location zur Verfügung.</div></div>
+      <div class="faq-item"><button class="faq-question" data-i18n="faq4_q">Was wünscht ihr euch als Geschenk?</button><div class="faq-answer" data-i18n="faq4_a">Euer Kommen ist uns das größte Geschenk! Solltet ihr uns dennoch etwas schenken wollen, freuen wir uns über einen Beitrag zu unserer gemeinsamen Zukunft.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== NAZAR BONCUK ==================== -->
+<section class="nazar-section">
+  <div class="fade-in">
+    <svg class="nazar-eye" id="nazar-eye" viewBox="0 0 120 120" width="120" height="120">
+      <circle cx="60" cy="60" r="55" fill="#0d2b6b" stroke="#1a3d7a" stroke-width="2"/>
+      <circle cx="60" cy="60" r="42" fill="#4da6ff"/>
+      <circle cx="60" cy="60" r="28" fill="#fff"/>
+      <circle cx="60" cy="60" r="16" fill="#0a0a0a"/>
+      <circle cx="53" cy="53" r="4" fill="rgba(255,255,255,0.6)"/>
+    </svg>
+    <p class="section-label" style="margin-top:20px" data-i18n="nazar_text">Nazar değmesin</p>
+  </div>
+</section>
+
+<!-- ==================== TÜRKEI FLAGGE DIVIDER ==================== -->
+<section class="flag-divider-section">
+  <div class="fade-in">
+    <div class="flag-divider">
+      <div class="flag-line"></div>
+      <svg class="flag-emblem" viewBox="0 0 80 50" width="100" height="62">
+        <!-- Halbmond -->
+        <circle cx="32" cy="25" r="16" fill="none" stroke="#E30A17" stroke-width="2"/>
+        <circle cx="37" cy="25" r="13" fill="#0a0f14"/>
+        <!-- Stern -->
+        <polygon points="58,25 52,28 54,34 49,30 44,33 46,27 42,23 48,23 50,17 53,23" fill="#E30A17"/>
+      </svg>
+      <div class="flag-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+  <div class="fade-in">
+    <div class="heart">&#9829;</div>
+    <div class="footer-names" data-i18n="footer_names">Selim &amp; Benisu</div>
+    <div class="footer-date" data-i18n="footer_date">12 · 09 · 2026</div>
+    <div class="footer-bartin">
+      <svg width="80" height="24" viewBox="0 0 80 24"><path d="M0,12 Q10,4 20,12 Q30,20 40,12 Q50,4 60,12 Q70,20 80,12" fill="none" stroke="#4696dc" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/></svg>
+    </div>
+  </div>
+</footer>
+
+<!-- Three.js for STL Viewer (loaded on demand) -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
