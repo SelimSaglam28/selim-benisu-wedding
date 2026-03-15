@@ -485,23 +485,37 @@ function initButterfly() {
 
   function animate(time) {
     if (doingHeart) {
-      // Direct position on curve (heartDir mirrors x if needed)
       heartT += 0.02;
-      px = heartCX + heartDir * hx(heartT);
-      py = heartCY + hy(heartT);
+      const targetX = heartCX + heartDir * hx(heartT);
+      const targetY = heartCY + hy(heartT);
 
-      // Angle from derivative — mirrored dx if needed
-      const dx = heartDir * dhx(heartT), dy = dhy(heartT);
-      const len = Math.sqrt(dx*dx + dy*dy);
-      if (len > 0.5) {
-        const targetA = Math.atan2(dy, dx) * (180 / Math.PI);
-        lerpAngle(targetA, 0.12);
+      // How far into the heart are we? (0..1)
+      const progress = (heartT - Math.PI) / (2 * Math.PI);
+      // Blend factor: smooth in first 10% and last 10%, direct in middle
+      const blend = progress < 0.1 ? progress / 0.1
+                  : progress > 0.9 ? (1 - progress) / 0.1
+                  : 1;
+
+      // Lerp position at entry/exit, direct in the middle
+      if (blend >= 0.95) {
+        px = targetX;
+        py = targetY;
+      } else {
+        px += (targetX - px) * (0.05 + blend * 0.15);
+        py += (targetY - py) * (0.05 + blend * 0.15);
       }
 
-      // Heart complete (started at π, full circle = 3π)
+      // Angle from derivative — gentle lerp for smooth turning
+      const dx = heartDir * dhx(heartT), dy = dhy(heartT);
+      const len = Math.sqrt(dx*dx + dy*dy);
+      if (len > 0.3) {
+        const targetA = Math.atan2(dy, dx) * (180 / Math.PI);
+        lerpAngle(targetA, 0.05);
+      }
+
+      // Heart complete
       if (heartT >= Math.PI * 3) {
         doingHeart = false;
-        // Continue in the direction the plane was heading when it exited
         targetAngle = angle;
         scheduleHeart(20000 + Math.random() * 5000);
       }
