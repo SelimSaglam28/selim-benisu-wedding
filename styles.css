@@ -771,9 +771,11 @@ section {
 
 /* ========== FOTO UPLOAD ========== */
 .upload-area {
-  max-width: 420px;
+  display: block;
+  max-width: 500px;
+  width: 100%;
   margin: 0 auto;
-  padding: 50px 30px;
+  padding: 60px 40px;
   border: 2px dashed var(--gold-dim);
   text-align: center;
   cursor: pointer;
