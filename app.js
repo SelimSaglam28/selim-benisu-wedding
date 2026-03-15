@@ -407,12 +407,13 @@ async function initSTLViewer() {
 
 // ---------- Flying Plane with Contrail + Heart ----------
 function initButterfly() {
-  if (window.innerWidth < 768) return;
+  const isMobile = window.innerWidth < 768;
+  const planeSize = isMobile ? 28 : 44;
+  const SIZE = planeSize / 2;
 
-  const SIZE = 22;
   const el = document.createElement('div');
   el.className = 'flying-plane';
-  el.innerHTML = `<svg width="44" height="44" viewBox="0 0 100 100">
+  el.innerHTML = `<svg width="${planeSize}" height="${planeSize}" viewBox="0 0 100 100">
     <path d="M30,50 L75,50" stroke="#C4A265" stroke-width="5" stroke-linecap="round"/>
     <path d="M75,50 L88,50" stroke="#C4A265" stroke-width="3.5" stroke-linecap="round"/>
     <path d="M48,50 L40,22 L58,50" fill="#C4A265" opacity="0.8"/>
@@ -484,14 +485,16 @@ function initButterfly() {
   function spawnDotAt(x, y) {
     const dot = document.createElement('div');
     dot.className = 'contrail-dot';
+    dot.textContent = '♥';
     dot.style.left = x + 'px';
     dot.style.top = y + 'px';
     document.body.appendChild(dot);
     setTimeout(() => dot.remove(), DOT_LIFE);
   }
 
-  // Schedule heart
+  // Schedule heart (desktop only)
   function scheduleHeart(delay) {
+    if (isMobile) return;
     setTimeout(() => {
       if (!doingHeart) {
         doingHeart = true;
@@ -502,7 +505,7 @@ function initButterfly() {
       }
     }, delay);
   }
-  scheduleHeart(10000);
+  if (!isMobile) scheduleHeart(10000);
 
   setInterval(() => {
     if (!doingHeart) targetAngle = (Math.random() - 0.5) * 20;
