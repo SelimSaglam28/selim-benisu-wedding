@@ -412,7 +412,7 @@ function initButterfly() {
   const el = document.createElement('div');
   el.className = 'flying-plane';
   // Flugzeug zeigt nach RECHTS (Nase = rechts)
-  el.innerHTML = `<svg width="36" height="36" viewBox="0 0 100 100">
+  el.innerHTML = `<svg width="56" height="56" viewBox="0 0 100 100">
     <!-- Rumpf -->
     <path d="M15,50 L85,50" stroke="#C4A265" stroke-width="4" stroke-linecap="round"/>
     <!-- Nase -->
@@ -443,8 +443,9 @@ function initButterfly() {
   function spawnTrail() {
     const trail = document.createElement('div');
     trail.className = 'contrail';
-    trail.style.left = (x + 10) + 'px';
-    trail.style.top = (y + 16) + 'px';
+    const rad = angle * Math.PI / 180;
+    trail.style.left = (x - Math.cos(rad) * 30) + 'px';
+    trail.style.top = (y + 26 - Math.sin(rad) * 30) + 'px';
     trail.style.width = '60px';
     trail.style.transform = `rotate(${angle}deg)`;
     document.body.appendChild(trail);
