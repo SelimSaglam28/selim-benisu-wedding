@@ -432,8 +432,8 @@ function initButterfly() {
   let heartMode = false;
   let heartT = 0;
   let heartCenterX = 0, heartCenterY = 0;
-  const heartSize = 55;
-  const heartSpeed = 0.04;
+  const heartSize = 65;
+  const heartSpeed = 0.02;
 
   // Start heart every 25-35s
   function scheduleHeart() {
@@ -471,23 +471,28 @@ function initButterfly() {
 
   function animate(time) {
     if (heartMode) {
-      // Folge Herz-Kurve
+      // Folge Herz-Kurve — smooth
       heartT += heartSpeed;
       const hx = heartCenterX + heartX(heartT);
       const hy = heartCenterY + heartY(heartT);
 
-      // Winkel aus Bewegungsrichtung
-      const nextT = heartT + 0.01;
+      // Smooth Winkel: berechne Zielwinkel, interpoliere sanft
+      const nextT = heartT + 0.05;
       const dx = heartX(nextT) - heartX(heartT);
       const dy = heartY(nextT) - heartY(heartT);
-      angle = Math.atan2(dy, dx) * (180 / Math.PI);
+      const targetA = Math.atan2(dy, dx) * (180 / Math.PI);
+      // Smooth angle lerp (handle 360° wrapping)
+      let diff = targetA - angle;
+      if (diff > 180) diff -= 360;
+      if (diff < -180) diff += 360;
+      angle += diff * 0.08;
 
       x = hx - 22;
       y = hy - 22;
 
-      // Herz-Dots (länger sichtbar)
-      if (time - lastTrailTime > 50) {
-        spawnDot(hx, hy, 5000);
+      // Herz-Dots: öfter spawnen, länger sichtbar
+      if (time - lastTrailTime > 35) {
+        spawnDot(hx, hy, 7000);
         lastTrailTime = time;
       }
 
