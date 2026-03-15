@@ -427,7 +427,7 @@ function initButterfly() {
   let lastTrailTime = 0;
   const speed = 1.8;
   let targetAngle = 0;
-  const DOT_LIFE = 30000; // 30 seconds
+  const DOT_LIFE = 60000; // 60 seconds
 
   // Heart state
   let doingHeart = false;
