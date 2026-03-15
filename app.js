@@ -461,10 +461,10 @@ function initButterfly() {
     setTimeout(() => {
       if (!doingHeart) {
         doingHeart = true;
-        heartT = 0;
-        // Heart center = current plane position (no teleport!)
-        heartCX = px;
-        heartCY = py;
+        heartT = Math.PI; // Start at bottom tip of heart
+        // Heart center = offset so bottom tip aligns with current position
+        heartCX = px - hx(Math.PI);
+        heartCY = py - hy(Math.PI);
       }
     }, delay);
   }
@@ -487,8 +487,8 @@ function initButterfly() {
       const tangentA = Math.atan2(hy(nt) - hy(heartT), hx(nt) - hx(heartT)) * (180 / Math.PI);
       lerpAngle(tangentA, 0.15);
 
-      // Heart complete
-      if (heartT >= Math.PI * 2) {
+      // Heart complete (started at π, full circle = 3π)
+      if (heartT >= Math.PI * 3) {
         doingHeart = false;
         // Continue flying from where heart ended (no teleport)
         targetAngle = (Math.random() - 0.5) * 15;
