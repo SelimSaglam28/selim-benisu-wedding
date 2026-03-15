@@ -752,85 +752,13 @@ section {
 .flag-emblem { opacity: 0.6; transition: opacity 0.3s; }
 .flag-emblem:hover { opacity: 0.9; }
 
-/* ========== BUTTERFLY ========== */
-.butterfly {
+/* ========== FLYING PLANE ========== */
+.flying-plane {
   position: fixed;
   z-index: 3;
   pointer-events: none;
-  perspective: 300px;
-}
-.butterfly-body {
-  position: relative;
-  width: 4px;
-  height: 28px;
-  background: #C4A265;
-  border-radius: 2px;
-  margin: 0 auto;
-}
-.butterfly-body::before, .butterfly-body::after {
-  content: '';
-  position: absolute;
-  top: -6px;
-  width: 1px;
-  height: 8px;
-  background: #C4A265;
-  border-radius: 1px;
-}
-.butterfly-body::before { left: -2px; transform: rotate(-25deg); }
-.butterfly-body::after { right: -2px; transform: rotate(25deg); }
-.butterfly-wings {
-  position: absolute;
-  top: 0; left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-}
-.butterfly-wing-l, .butterfly-wing-r {
-  transform-style: preserve-3d;
-}
-.butterfly-wing-l {
-  animation: flapLeft 0.3s ease-in-out infinite alternate;
-  transform-origin: right center;
-}
-.butterfly-wing-r {
-  animation: flapRight 0.3s ease-in-out infinite alternate;
-  transform-origin: left center;
-}
-.wing-top, .wing-bottom {
-  border-radius: 50%;
-  border: 1.5px solid rgba(196,162,101,0.6);
-}
-.butterfly-wing-l .wing-top {
-  width: 20px; height: 22px;
-  background: rgba(196,162,101,0.35);
-  border-radius: 50% 50% 20% 50%;
-  margin-left: -18px;
-}
-.butterfly-wing-l .wing-bottom {
-  width: 14px; height: 16px;
-  background: rgba(196,162,101,0.25);
-  border-radius: 50% 20% 50% 50%;
-  margin-left: -12px;
-  margin-top: -2px;
-}
-.butterfly-wing-r .wing-top {
-  width: 20px; height: 22px;
-  background: rgba(196,162,101,0.35);
-  border-radius: 50% 50% 50% 20%;
-}
-.butterfly-wing-r .wing-bottom {
-  width: 14px; height: 16px;
-  background: rgba(196,162,101,0.25);
-  border-radius: 20% 50% 50% 50%;
-  margin-left: 2px;
-  margin-top: -2px;
-}
-@keyframes flapLeft {
-  0% { transform: rotateY(0deg); }
-  100% { transform: rotateY(70deg); }
-}
-@keyframes flapRight {
-  0% { transform: rotateY(0deg); }
-  100% { transform: rotateY(-70deg); }
+  opacity: 0.3;
+  filter: drop-shadow(0 0 8px rgba(196,162,101,0.3));
 }
 
 /* ========== FADE IN ========== */
