@@ -426,9 +426,9 @@ function initButterfly() {
   let px = -60, py = 200;
   let angle = 0;
   let lastTrailTime = 0;
-  const speed = 1.8;
+  const speed = isMobile ? 0.8 : 1.8;
   let targetAngle = 0;
-  const DOT_LIFE = 30000;
+  const DOT_LIFE = 5000;
 
   // Heart: pre-computed waypoints
   let heartPoints = [];
@@ -508,8 +508,8 @@ function initButterfly() {
   if (!isMobile) scheduleHeart(10000);
 
   setInterval(() => {
-    if (!doingHeart) targetAngle = (Math.random() - 0.5) * 20;
-  }, 4000 + Math.random() * 3000);
+    if (!doingHeart) targetAngle = (Math.random() - 0.5) * (isMobile ? 30 : 20);
+  }, 3000 + Math.random() * 2000);
 
   function animate(time) {
     if (doingHeart) {
