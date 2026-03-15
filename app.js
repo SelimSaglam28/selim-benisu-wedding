@@ -405,46 +405,58 @@ async function initSTLViewer() {
   });
 }
 
-// ---------- Flying Plane ----------
+// ---------- Flying Butterfly (SVG + CSS 3D perspective flap) ----------
 function initButterfly() {
   if (window.innerWidth < 768) return;
 
   const el = document.createElement('div');
-  el.className = 'flying-plane';
-  el.innerHTML = `<svg width="40" height="40" viewBox="0 0 50 50">
-    <path d="M25,5 L28,20 L45,22 L28,25 L30,42 L25,28 L20,42 L22,25 L5,22 L22,20 Z" fill="#C4A265"/>
+  el.className = 'lottie-butterfly';
+  // Schmetterling aus 2 separaten Flügel-Gruppen — CSS macht den 3D-Flap
+  el.innerHTML = `<svg viewBox="0 0 100 80" width="100%" height="100%">
+    <g class="wing-l">
+      <path d="M50,40 C42,25 25,10 15,18 C5,26 8,38 18,35 C28,32 40,38 50,40" fill="#C4A265" opacity="0.8"/>
+      <path d="M50,40 C42,48 22,58 15,52 C8,46 12,36 22,38 C32,40 42,40 50,40" fill="#C4A265" opacity="0.6"/>
+    </g>
+    <g class="wing-r">
+      <path d="M50,40 C58,25 75,10 85,18 C95,26 92,38 82,35 C72,32 60,38 50,40" fill="#C4A265" opacity="0.8"/>
+      <path d="M50,40 C58,48 78,58 85,52 C92,46 88,36 78,38 C68,40 58,40 50,40" fill="#C4A265" opacity="0.6"/>
+    </g>
+    <ellipse cx="50" cy="40" rx="1.5" ry="10" fill="#C4A265"/>
+    <path d="M49,30 Q44,22 42,18" fill="none" stroke="#C4A265" stroke-width="1" stroke-linecap="round"/>
+    <path d="M51,30 Q56,22 58,18" fill="none" stroke="#C4A265" stroke-width="1" stroke-linecap="round"/>
+    <circle cx="42" cy="18" r="1.5" fill="#C4A265"/>
+    <circle cx="58" cy="18" r="1.5" fill="#C4A265"/>
   </svg>`;
   document.body.appendChild(el);
 
-  let x = -60;
-  let y = Math.random() * window.innerHeight * 0.4 + 60;
-  let vx = 1.2 + Math.random() * 0.5;
-  let vy = 0;
-  let targetVy = 0;
-  let t = 0;
+  let x = Math.random() * window.innerWidth * 0.6 + window.innerWidth * 0.2;
+  let y = Math.random() * window.innerHeight * 0.3 + 80;
+  let vx = (Math.random() - 0.5) * 1.5;
+  let vy = (Math.random() - 0.5) * 0.6;
+  let targetVx = vx, targetVy = vy;
+  let t = Math.random() * 100;
 
   setInterval(() => {
-    targetVy = (Math.random() - 0.5) * 1;
+    targetVx = (Math.random() - 0.5) * 2;
+    targetVy = (Math.random() - 0.5) * 1.2;
   }, 3000 + Math.random() * 3000);
 
   function animate() {
     t += 0.015;
+    vx += (targetVx - vx) * 0.008;
     vy += (targetVy - vy) * 0.008;
-    x += vx;
-    y += vy + Math.sin(t) * 0.3;
-
-    // Wrap: flies off right, reappears left at new height
-    if (x > window.innerWidth + 80) {
-      x = -60;
-      y = Math.random() * window.innerHeight * 0.5 + 50;
-    }
-    if (y < 20) y = 20;
-    if (y > window.innerHeight * 0.6) y = window.innerHeight * 0.6;
-
-    const angle = Math.atan2(vy + Math.sin(t) * 0.3, vx) * (180 / Math.PI);
+    x += vx + Math.sin(t * 1.2) * 0.5;
+    y += vy + Math.cos(t * 0.8) * 0.4;
+    const W = window.innerWidth, H = window.innerHeight;
+    if (x < -80) x = W + 40;
+    if (x > W + 80) x = -40;
+    if (y < -40) y = H * 0.5;
+    if (y > H * 0.6) y = 40;
+    // Tilt slightly in flight direction
+    const angle = Math.atan2(vy, vx) * (180 / Math.PI);
     el.style.left = x + 'px';
     el.style.top = y + 'px';
-    el.style.transform = `rotate(${angle}deg)`;
+    el.style.transform = `rotate(${angle * 0.3}deg)`;
     requestAnimationFrame(animate);
   }
   animate();
