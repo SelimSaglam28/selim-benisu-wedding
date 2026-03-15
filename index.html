@@ -253,11 +253,11 @@
     <h2 class="section-title" data-i18n="photo_title">Teilt eure Momente</h2>
   </div>
   <div class="fade-in">
-    <div class="upload-area" id="upload-area">
+    <label class="upload-area" id="upload-area" for="photo-input">
       <div class="upload-icon">&#128247;</div>
       <p class="upload-text" data-i18n="photo_drop">Fotos hierher ziehen oder klicken</p>
-      <input type="file" id="photo-input" multiple accept="image/*" style="display:none">
-    </div>
+      <input type="file" id="photo-input" multiple accept="image/*" style="position:absolute;opacity:0;width:0;height:0;">
+    </label>
     <div id="upload-status"></div>
   </div>
 </section>
