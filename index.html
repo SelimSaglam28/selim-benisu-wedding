@@ -116,21 +116,7 @@
       <span class="infinity-letter">B</span>
     </div>
   </div>
-  <a href="#monogram" class="scroll-arrow">&#8595;</a>
-</section>
-
-<!-- ==================== ANIMATED MONOGRAM ==================== -->
-<section id="monogram" class="monogram-section">
-  <div class="fade-in">
-    <svg class="monogram-svg" viewBox="0 0 440 140" width="440" height="140">
-      <!-- S -->
-      <path class="mono-letter" d="M55,110 Q18,110 18,85 Q18,60 55,60 Q92,60 92,42 Q92,18 55,18 Q32,18 22,32" fill="none" stroke="#C4A265" stroke-width="3" stroke-linecap="round"/>
-      <!-- ∞ -->
-      <path class="mono-letter" d="M175,65 C175,40 200,35 215,50 C230,65 230,65 245,50 C260,35 285,40 285,65 C285,90 260,95 245,80 C230,65 230,65 215,80 C200,95 175,90 175,65 Z" fill="none" stroke="#C4A265" stroke-width="2.5" stroke-linecap="round"/>
-      <!-- B -->
-      <path class="mono-letter" d="M340,110 L340,18 L375,18 Q408,18 408,42 Q408,60 380,62 Q414,65 414,88 Q414,110 375,110 Z" fill="none" stroke="#C4A265" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </div>
+  <a href="#details" class="scroll-arrow">&#8595;</a>
 </section>
 
 <!-- ==================== EVENT DETAILS ==================== -->
@@ -233,7 +219,7 @@
     <h2 class="section-title" data-i18n="3d_title">Unsere Einladung in 3D</h2>
   </div>
   <div class="fade-in">
-    <div id="stl-viewer"></div>
+    <div id="stl-viewer"><div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--gold);font-family:var(--sans);font-size:11px;letter-spacing:4px;opacity:0.5">LOADING 3D...</div></div>
     <p class="stl-hint" data-i18n="3d_hint">Drehen &amp; Zoomen mit Maus oder Touch</p>
   </div>
 </section>
@@ -245,27 +231,30 @@
     <h2 class="section-title" data-i18n="bartin_title">Bartin, Karadeniz</h2>
   </div>
   <div class="fade-in">
-    <svg class="bartin-map-svg" viewBox="1095 295 100 40" preserveAspectRatio="xMidYMid meet">
+    <svg class="bartin-map-svg" viewBox="1088 288 130 60" preserveAspectRatio="xMidYMid meet">
       <!-- Echter Türkei-Umriss -->
-      <path d="M1166.6 308.9l-9.7-4.4-8.5.2-5.7 1.7-5.6 4-9.9-.8-1.6 4.8-7.9.2-5.1 6.1 3.6 3-2 5 4.2 3.6 3.7 6.4 5.8-.1 5.4 3.5 3.6-.8.9-2.7 5.7.2 4.6 3.5 8-.7 3.1-3.7 4.6 1.5 3.2-.6-1.7 2.4 2.3 3 1.2-1.4 1.2-1.5-.1-3.6 1.9 1.3 5.5-1.8 3 1.2h4.3l5.7-2.5 2.8.2 5.9-1.1 2.1-1 6.2.9 2.1 1.6 2.3-1.1-3.7-5.2.7-2-2.9-7.3 3.3-1.8-2.4-1.9-4.2-1.5v-3.1l-1.3-2.2-5.6-3-5.4.3-5.5 3.2-4.5-.6-5.8 1-7.8-2.4z" fill="rgba(196,162,101,0.08)" stroke="#C4A265" stroke-width="0.5" opacity="0.8"/>
-      <!-- Thrakien (europäischer Teil) -->
-      <path d="M1117 312.9l2-1.9 6.1-.4.7-1.5-4.7-2-.9-2.4-4.5-.8-5 2 2.7 1.6-1.2 3.9-1.1.7.1 1.3 1.9 2.9 3.9-3.4z" fill="rgba(196,162,101,0.08)" stroke="#C4A265" stroke-width="0.5" opacity="0.8"/>
+      <path d="M1166.6 308.9l-9.7-4.4-8.5.2-5.7 1.7-5.6 4-9.9-.8-1.6 4.8-7.9.2-5.1 6.1 3.6 3-2 5 4.2 3.6 3.7 6.4 5.8-.1 5.4 3.5 3.6-.8.9-2.7 5.7.2 4.6 3.5 8-.7 3.1-3.7 4.6 1.5 3.2-.6-1.7 2.4 2.3 3 1.2-1.4 1.2-1.5-.1-3.6 1.9 1.3 5.5-1.8 3 1.2h4.3l5.7-2.5 2.8.2 5.9-1.1 2.1-1 6.2.9 2.1 1.6 2.3-1.1-3.7-5.2.7-2-2.9-7.3 3.3-1.8-2.4-1.9-4.2-1.5v-3.1l-1.3-2.2-5.6-3-5.4.3-5.5 3.2-4.5-.6-5.8 1-7.8-2.4z" fill="rgba(196,162,101,0.1)" stroke="#C4A265" stroke-width="0.8" opacity="0.8"/>
+      <!-- Thrakien -->
+      <path d="M1117 312.9l2-1.9 6.1-.4.7-1.5-4.7-2-.9-2.4-4.5-.8-5 2 2.7 1.6-1.2 3.9-1.1.7.1 1.3 1.9 2.9 3.9-3.4z" fill="rgba(196,162,101,0.1)" stroke="#C4A265" stroke-width="0.8" opacity="0.8"/>
 
-      <!-- BARTIN Punkt (Nordküste, ca. 32.3°E 41.6°N) -->
-      <circle cx="1148" cy="306.5" r="1.5" fill="none" stroke="#C4A265" stroke-width="0.4" class="bartin-pulse"/>
-      <circle cx="1148" cy="306.5" r="0.6" fill="#C4A265"/>
-      <text x="1148" y="305" text-anchor="middle" class="map-city-label map-city-main" style="font-size:2.5px;letter-spacing:0.8px">BARTIN</text>
+      <!-- BARTIN -->
+      <circle cx="1148" cy="306.5" r="2" fill="none" stroke="#C4A265" stroke-width="0.5" class="bartin-pulse"/>
+      <circle cx="1148" cy="306.5" r="0.8" fill="#C4A265"/>
+      <text x="1148" y="304" text-anchor="middle" class="map-city-label map-city-main" style="font-size:3px;letter-spacing:1px">BARTIN</text>
 
       <!-- Istanbul -->
-      <circle cx="1125" cy="309" r="0.4" fill="#C4A265" opacity="0.4"/>
-      <text x="1125" y="312" text-anchor="middle" class="map-city-label map-city-small" style="font-size:1.8px">Istanbul</text>
+      <circle cx="1125" cy="309" r="0.6" fill="#C4A265" opacity="0.4"/>
+      <text x="1125" y="312.5" text-anchor="middle" class="map-city-label map-city-small" style="font-size:2.2px">Istanbul</text>
 
       <!-- Ankara -->
-      <circle cx="1155" cy="316" r="0.4" fill="#C4A265" opacity="0.4"/>
-      <text x="1155" y="318.5" text-anchor="middle" class="map-city-label map-city-small" style="font-size:1.8px">Ankara</text>
+      <circle cx="1155" cy="316" r="0.6" fill="#C4A265" opacity="0.4"/>
+      <text x="1155" y="319" text-anchor="middle" class="map-city-label map-city-small" style="font-size:2.2px">Ankara</text>
 
-      <!-- Karadeniz Label -->
-      <text x="1155" y="301" text-anchor="middle" class="map-sea-label" style="font-size:2.5px;letter-spacing:1.5px" data-i18n="map_sea">SCHWARZES MEER</text>
+      <!-- Karadeniz -->
+      <text x="1155" y="299" text-anchor="middle" class="map-sea-label" style="font-size:3px;letter-spacing:2px" data-i18n="map_sea">SCHWARZES MEER</text>
+
+      <!-- Akdeniz -->
+      <text x="1155" y="340" text-anchor="middle" class="map-sea-label" style="font-size:2.2px;letter-spacing:1.5px;opacity:0.12">AKDENIZ</text>
     </svg>
   </div>
 </section>
@@ -323,9 +312,9 @@
   <div class="fade-in">
     <div class="flag-divider">
       <div class="flag-line"></div>
-      <svg class="flag-emblem" viewBox="0 0 80 50" width="100" height="62">
+      <svg class="flag-emblem" viewBox="0 0 80 50" width="160" height="100">
         <!-- Halbmond -->
-        <circle cx="32" cy="25" r="16" fill="none" stroke="#E30A17" stroke-width="2"/>
+        <circle cx="32" cy="25" r="16" fill="none" stroke="#E30A17" stroke-width="2.5"/>
         <circle cx="37" cy="25" r="13" fill="#0a0f14"/>
         <!-- Stern -->
         <polygon points="58,25 52,28 54,34 49,30 44,33 46,27 42,23 48,23 50,17 53,23" fill="#E30A17"/>
