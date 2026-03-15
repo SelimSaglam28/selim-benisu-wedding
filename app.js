@@ -282,17 +282,43 @@ function launchConfetti() {
   draw();
 }
 
-// ---------- RSVP ----------
+// ---------- RSVP (sends to Google Forms in background) ----------
 function initRSVP() {
   const form = document.getElementById('rsvp-form');
   if (!form) return;
   form.addEventListener('submit', e => {
     e.preventDefault();
-    const action = form.getAttribute('action');
-    if (action && action !== '#') {
-      fetch(action, { method:'POST', body: new FormData(form), headers:{'Accept':'application/json'}})
-        .then(() => showRSVPSuccess()).catch(() => showRSVPSuccess());
-    } else { showRSVPSuccess(); }
+    // Map our form fields to Google Form entry IDs
+    const name = form.querySelector('[name="name"]').value;
+    const guests = form.querySelector('[name="guests"]').value;
+    const attending = form.querySelector('[name="attending"]:checked').value === 'yes' ? 'ja' : 'Nein';
+
+    // Send to Google Form via hidden iframe (no CORS issues)
+    const gFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdq1ipdbSplHlgJV7rYydS4SpV_HVEsAYmrq-n5_JGNQexb6w/formResponse';
+    const params = new URLSearchParams({
+      'entry.1923312789': name,
+      'entry.646423457': guests,
+      'entry.1592907935': attending
+    });
+    // Use hidden iframe to avoid CORS
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.name = 'gform_iframe';
+    document.body.appendChild(iframe);
+    const tempForm = document.createElement('form');
+    tempForm.method = 'POST';
+    tempForm.action = gFormUrl;
+    tempForm.target = 'gform_iframe';
+    for (const [key, val] of params) {
+      const input = document.createElement('input');
+      input.type = 'hidden'; input.name = key; input.value = val;
+      tempForm.appendChild(input);
+    }
+    document.body.appendChild(tempForm);
+    tempForm.submit();
+    setTimeout(() => { iframe.remove(); tempForm.remove(); }, 3000);
+
+    showRSVPSuccess();
   });
 }
 function showRSVPSuccess() {
