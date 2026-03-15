@@ -412,19 +412,17 @@ function initButterfly() {
   const el = document.createElement('div');
   el.className = 'flying-plane';
   // Flugzeug zeigt nach RECHTS (Nase = rechts)
-  el.innerHTML = `<svg width="56" height="56" viewBox="0 0 100 100">
-    <!-- Rumpf -->
-    <path d="M15,50 L85,50" stroke="#C4A265" stroke-width="4" stroke-linecap="round"/>
+  el.innerHTML = `<svg width="32" height="32" viewBox="0 0 100 100">
+    <!-- Rumpf (kürzer) -->
+    <path d="M30,50 L75,50" stroke="#C4A265" stroke-width="5" stroke-linecap="round"/>
     <!-- Nase -->
-    <path d="M85,50 L95,50" stroke="#C4A265" stroke-width="3" stroke-linecap="round"/>
-    <!-- Hauptflügel -->
-    <path d="M45,50 L35,25 L55,50" fill="#C4A265" opacity="0.7"/>
-    <path d="M45,50 L35,75 L55,50" fill="#C4A265" opacity="0.7"/>
+    <path d="M75,50 L88,50" stroke="#C4A265" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- Hauptflügel (breiter, kürzer) -->
+    <path d="M48,50 L40,22 L58,50" fill="#C4A265" opacity="0.8"/>
+    <path d="M48,50 L40,78 L58,50" fill="#C4A265" opacity="0.8"/>
     <!-- Heckflügel -->
-    <path d="M18,50 L12,35 L25,50" fill="#C4A265" opacity="0.5"/>
-    <path d="M18,50 L12,65 L25,50" fill="#C4A265" opacity="0.5"/>
-    <!-- Heckflosse -->
-    <path d="M15,50 L10,38 L22,50" fill="#C4A265" opacity="0.6"/>
+    <path d="M32,50 L26,38 L38,50" fill="#C4A265" opacity="0.6"/>
+    <path d="M32,50 L26,62 L38,50" fill="#C4A265" opacity="0.6"/>
   </svg>`;
   document.body.appendChild(el);
 
@@ -437,24 +435,22 @@ function initButterfly() {
 
   // Sanft Kurs ändern
   setInterval(() => {
-    targetAngle = (Math.random() - 0.5) * 40; // -20° bis +20°
-  }, 3000 + Math.random() * 2000);
+    targetAngle = (Math.random() - 0.5) * 25; // -12° bis +12° — sanfter
+  }, 4000 + Math.random() * 3000);
 
   function spawnTrail() {
-    const trail = document.createElement('div');
-    trail.className = 'contrail';
+    const dot = document.createElement('div');
+    dot.className = 'contrail-dot';
     const rad = angle * Math.PI / 180;
-    trail.style.left = (x - Math.cos(rad) * 30) + 'px';
-    trail.style.top = (y + 26 - Math.sin(rad) * 30) + 'px';
-    trail.style.width = '60px';
-    trail.style.transform = `rotate(${angle}deg)`;
-    document.body.appendChild(trail);
-    setTimeout(() => trail.remove(), 2000);
+    dot.style.left = (x + 16 - Math.cos(rad) * 24) + 'px';
+    dot.style.top = (y + 16 - Math.sin(rad) * 24) + 'px';
+    document.body.appendChild(dot);
+    setTimeout(() => dot.remove(), 3000);
   }
 
   function animate(time) {
     // Sanft zum Zielwinkel lenken
-    angle += (targetAngle - angle) * 0.01;
+    angle += (targetAngle - angle) * 0.006;
     const rad = angle * Math.PI / 180;
     x += Math.cos(rad) * speed;
     y += Math.sin(rad) * speed;
