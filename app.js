@@ -485,7 +485,7 @@ function initButterfly() {
   function spawnDotAt(x, y) {
     const dot = document.createElement('div');
     dot.className = 'contrail-dot';
-    dot.textContent = '♥';
+    dot.innerHTML = '<svg width="6" height="6" viewBox="0 0 10 10"><path d="M5,8 Q1,5 1,3 Q1,1 3,1 Q4,1 5,2.5 Q6,1 7,1 Q9,1 9,3 Q9,5 5,8Z" fill="#C4A265"/></svg>';
     dot.style.left = x + 'px';
     dot.style.top = y + 'px';
     document.body.appendChild(dot);
