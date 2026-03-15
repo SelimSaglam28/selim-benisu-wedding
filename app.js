@@ -464,9 +464,9 @@ function initButterfly() {
     setTimeout(() => {
       if (!doingHeart) {
         doingHeart = true;
-        heartT = Math.PI; // Start at bottom tip
-        heartCX = px - hx(Math.PI);
-        heartCY = py - hy(Math.PI);
+        heartT = Math.PI + 0.1; // Slightly past the cusp to avoid 0-derivative
+        heartCX = px - hx(Math.PI + 0.1);
+        heartCY = py - hy(Math.PI + 0.1);
       }
     }, delay);
   }
@@ -479,13 +479,18 @@ function initButterfly() {
 
   function animate(time) {
     if (doingHeart) {
-      // DIRECT position on heart curve — no lerp, clean shape
+      // Direct position on curve
       heartT += 0.02;
       px = heartCX + hx(heartT);
       py = heartCY + hy(heartT);
 
-      // Exact angle from mathematical derivative
-      angle = Math.atan2(dhy(heartT), dhx(heartT)) * (180 / Math.PI);
+      // Angle from derivative — but LERPED for smooth turning
+      const dx = dhx(heartT), dy = dhy(heartT);
+      const len = Math.sqrt(dx*dx + dy*dy);
+      if (len > 0.5) {
+        const targetA = Math.atan2(dy, dx) * (180 / Math.PI);
+        lerpAngle(targetA, 0.12);
+      }
 
       // Heart complete (started at π, full circle = 3π)
       if (heartT >= Math.PI * 3) {
