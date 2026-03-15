@@ -427,17 +427,20 @@ function initButterfly() {
   let lastTrailTime = 0;
   const speed = 1.8;
   let targetAngle = 0;
-  const DOT_LIFE = 60000; // 60 seconds
+  const DOT_LIFE = 90000; // 90 seconds
 
   // Heart state
   let doingHeart = false;
   let heartT = 0;
   let heartCX = 0, heartCY = 0;
-  const heartSize = 70;
+  const heartSize = 80;
 
-  // Heart parametric
+  // Heart parametric: x(t) = 16sin³(t), y(t) = -(13cos - 5cos2 - 2cos3 - cos4)
   function hx(t) { return heartSize * Math.pow(Math.sin(t), 3); }
   function hy(t) { return -heartSize * (0.8125*Math.cos(t) - 0.3125*Math.cos(2*t) - 0.125*Math.cos(3*t) - 0.0625*Math.cos(4*t)); }
+  // Exact derivatives for smooth angle
+  function dhx(t) { return heartSize * 3 * Math.pow(Math.sin(t), 2) * Math.cos(t); }
+  function dhy(t) { return heartSize * (0.8125*Math.sin(t) - 0.625*Math.sin(2*t) - 0.375*Math.sin(3*t) - 0.25*Math.sin(4*t)); }
 
   function spawnDot() {
     const dot = document.createElement('div');
@@ -461,8 +464,7 @@ function initButterfly() {
     setTimeout(() => {
       if (!doingHeart) {
         doingHeart = true;
-        heartT = Math.PI; // Start at bottom tip of heart
-        // Heart center = offset so bottom tip aligns with current position
+        heartT = Math.PI; // Start at bottom tip
         heartCX = px - hx(Math.PI);
         heartCY = py - hy(Math.PI);
       }
@@ -477,26 +479,17 @@ function initButterfly() {
 
   function animate(time) {
     if (doingHeart) {
-      // Follow heart curve — heart starts at current position
-      heartT += 0.01;
-      const targetX = heartCX + hx(heartT);
-      const targetY = heartCY + hy(heartT);
-      // Smoothly move towards heart position (no hard snap)
-      px += (targetX - px) * 0.12;
-      py += (targetY - py) * 0.12;
+      // DIRECT position on heart curve — no lerp, clean shape
+      heartT += 0.02;
+      px = heartCX + hx(heartT);
+      py = heartCY + hy(heartT);
 
-      // Smooth angle from actual movement direction
-      const dx = targetX - px;
-      const dy = targetY - py;
-      if (Math.abs(dx) > 0.01 || Math.abs(dy) > 0.01) {
-        const tangentA = Math.atan2(dy, dx) * (180 / Math.PI);
-        lerpAngle(tangentA, 0.06);
-      }
+      // Exact angle from mathematical derivative
+      angle = Math.atan2(dhy(heartT), dhx(heartT)) * (180 / Math.PI);
 
       // Heart complete (started at π, full circle = 3π)
       if (heartT >= Math.PI * 3) {
         doingHeart = false;
-        // Continue flying from where heart ended (no teleport)
         targetAngle = (Math.random() - 0.5) * 15;
         scheduleHeart(20000 + Math.random() * 5000);
       }
@@ -515,9 +508,9 @@ function initButterfly() {
       if (py > window.innerHeight * 0.55) targetAngle = -Math.abs(targetAngle);
     }
 
-    // ALWAYS spawn dots (both normal flight and heart)
+    // Dots: weniger aber länger — gestrichelte Linie wie im Bild
     const dt = time - lastTrailTime;
-    if (dt > 40) {
+    if (dt > 100) {
       spawnDot();
       lastTrailTime = time;
     }
