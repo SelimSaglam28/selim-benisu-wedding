@@ -427,9 +427,10 @@ function initButterfly() {
   let lastTrailTime = 0;
   const speed = 1.8;
   let targetAngle = 0;
+  const DOT_LIFE = 30000; // 30 seconds
 
-  // Phases: 'fly' (normal, no dots), 'heart' (draw heart with dots)
-  let phase = 'fly';
+  // Heart state
+  let doingHeart = false;
   let heartT = 0;
   let heartCX = 0, heartCY = 0;
   const heartSize = 70;
@@ -438,13 +439,14 @@ function initButterfly() {
   function hx(t) { return heartSize * Math.pow(Math.sin(t), 3); }
   function hy(t) { return -heartSize * (0.8125*Math.cos(t) - 0.3125*Math.cos(2*t) - 0.125*Math.cos(3*t) - 0.0625*Math.cos(4*t)); }
 
-  function spawnDot(dotX, dotY, lifetime) {
+  function spawnDot() {
     const dot = document.createElement('div');
     dot.className = 'contrail-dot';
-    dot.style.left = dotX + 'px';
-    dot.style.top = dotY + 'px';
+    const rad = angle * Math.PI / 180;
+    dot.style.left = (px - Math.cos(rad) * 28) + 'px';
+    dot.style.top = (py - Math.sin(rad) * 28) + 'px';
     document.body.appendChild(dot);
-    setTimeout(() => dot.remove(), lifetime);
+    setTimeout(() => dot.remove(), DOT_LIFE);
   }
 
   function lerpAngle(target, factor) {
@@ -454,42 +456,28 @@ function initButterfly() {
     angle += diff * factor;
   }
 
-  // Schedule heart: first after 8s, then 15-20s AFTER each heart ends
+  // Schedule heart: first after 10s, then 20-25s after each heart ends
   function scheduleHeart(delay) {
     setTimeout(() => {
-      if (phase === 'fly') {
-        phase = 'heart';
+      if (!doingHeart) {
+        doingHeart = true;
         heartT = 0;
-        heartCX = window.innerWidth * 0.25 + Math.random() * window.innerWidth * 0.5;
-        heartCY = window.innerHeight * 0.15 + Math.random() * window.innerHeight * 0.25;
-        // Jump plane to heart start
-        px = heartCX + hx(0);
-        py = heartCY + hy(0);
+        // Heart center = current plane position (no teleport!)
+        heartCX = px;
+        heartCY = py;
       }
     }, delay);
   }
-  scheduleHeart(8000);
+  scheduleHeart(10000);
 
   // Normal flight direction changes
   setInterval(() => {
-    if (phase === 'fly') targetAngle = (Math.random() - 0.5) * 25;
+    if (!doingHeart) targetAngle = (Math.random() - 0.5) * 20;
   }, 4000 + Math.random() * 3000);
 
   function animate(time) {
-    if (phase === 'fly') {
-      // Normal flight — NO dots, just the plane flying
-      lerpAngle(targetAngle, 0.006);
-      const rad = angle * Math.PI / 180;
-      px += Math.cos(rad) * speed;
-      py += Math.sin(rad) * speed;
-
-      // Wrap
-      if (px > window.innerWidth + 100) { px = -60; py = Math.random() * window.innerHeight * 0.4 + 50; angle = 0; targetAngle = 0; }
-      if (py < 30) targetAngle = Math.abs(targetAngle);
-      if (py > window.innerHeight * 0.55) targetAngle = -Math.abs(targetAngle);
-
-    } else if (phase === 'heart') {
-      // Follow heart curve
+    if (doingHeart) {
+      // Follow heart curve — heart starts at current position
       heartT += 0.015;
       px = heartCX + hx(heartT);
       py = heartCY + hy(heartT);
@@ -499,22 +487,33 @@ function initButterfly() {
       const tangentA = Math.atan2(hy(nt) - hy(heartT), hx(nt) - hx(heartT)) * (180 / Math.PI);
       lerpAngle(tangentA, 0.15);
 
-      // Spawn dots at tail position — ONLY during heart
-      const dt = time - lastTrailTime;
-      if (dt > 25) {
-        const rad = angle * Math.PI / 180;
-        spawnDot(px - Math.cos(rad) * 30, py - Math.sin(rad) * 30, 20000);
-        lastTrailTime = time;
-      }
-
       // Heart complete
       if (heartT >= Math.PI * 2) {
-        phase = 'fly';
-        angle = 0;
+        doingHeart = false;
+        // Continue flying from where heart ended (no teleport)
         targetAngle = (Math.random() - 0.5) * 15;
-        // Schedule NEXT heart only after this one is done
-        scheduleHeart(15000 + Math.random() * 5000);
+        scheduleHeart(20000 + Math.random() * 5000);
       }
+    } else {
+      // Normal flight
+      lerpAngle(targetAngle, 0.006);
+      const rad = angle * Math.PI / 180;
+      px += Math.cos(rad) * speed;
+      py += Math.sin(rad) * speed;
+
+      // Smooth wrap: right → left (no teleport to random y)
+      if (px > window.innerWidth + 60) px = -60;
+      if (px < -80) px = window.innerWidth + 60;
+      // Bounce top/bottom
+      if (py < 30) targetAngle = Math.abs(targetAngle);
+      if (py > window.innerHeight * 0.55) targetAngle = -Math.abs(targetAngle);
+    }
+
+    // ALWAYS spawn dots (both normal flight and heart)
+    const dt = time - lastTrailTime;
+    if (dt > 40) {
+      spawnDot();
+      lastTrailTime = time;
     }
 
     el.style.left = (px - SIZE) + 'px';
