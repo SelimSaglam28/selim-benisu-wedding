@@ -35,7 +35,6 @@
   <a href="#ablauf" data-i18n="nav_ablauf">Ablauf</a>
   <a href="#rsvp" data-i18n="nav_rsvp">RSVP</a>
   <a href="#bartin-map" data-i18n="nav_bartin">Bartin</a>
-  <a href="#faq" data-i18n="nav_faq">FAQ</a>
 </nav>
 
 <!-- ==================== HERO ==================== -->
@@ -71,9 +70,9 @@
     <p class="hero-subtitle" data-i18n="hero_subtitle">Wir heiraten</p>
   </div>
   <div class="fade-in" data-parallax="0.08">
-    <div class="hero-name">Selim</div>
+    <div class="hero-name">Bengisu</div>
     <div class="hero-ampersand" data-i18n="hero_ampersand">&amp;</div>
-    <div class="hero-name">Benisu</div>
+    <div class="hero-name">Selim</div>
     <div class="hero-family" data-i18n="hero_family">BARTIN</div>
   </div>
   <div class="fade-in">
@@ -113,12 +112,12 @@
 <section id="monogram" class="monogram-section">
   <div class="fade-in">
     <svg class="monogram-svg" viewBox="0 0 440 140" width="440" height="140">
-      <!-- S -->
-      <path class="mono-letter" d="M22,32 Q32,18 55,18 Q92,18 92,42 Q92,60 55,60 Q18,60 18,85 Q18,110 55,110 Q78,110 88,96" fill="none" stroke="#C4A265" stroke-width="3" stroke-linecap="round"/>
+      <!-- B -->
+      <path class="mono-letter" d="M20,110 L20,18 L55,18 Q88,18 88,42 Q88,60 60,62 Q94,65 94,88 Q94,110 55,110 Z" fill="none" stroke="#C4A265" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
       <!-- ∞ -->
       <path class="mono-letter" d="M175,65 C175,40 200,35 215,50 C230,65 230,65 245,50 C260,35 285,40 285,65 C285,90 260,95 245,80 C230,65 230,65 215,80 C200,95 175,90 175,65 Z" fill="none" stroke="#C4A265" stroke-width="2.5" stroke-linecap="round"/>
-      <!-- B -->
-      <path class="mono-letter" d="M340,110 L340,18 L375,18 Q408,18 408,42 Q408,60 380,62 Q414,65 414,88 Q414,110 375,110 Z" fill="none" stroke="#C4A265" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- S -->
+      <path class="mono-letter" d="M342,32 Q352,18 375,18 Q412,18 412,42 Q412,60 375,60 Q338,60 338,85 Q338,110 375,110 Q398,110 408,96" fill="none" stroke="#C4A265" stroke-width="3" stroke-linecap="round"/>
     </svg>
   </div>
 </section>
@@ -189,8 +188,6 @@
       <div class="form-group"><label class="form-label" data-i18n="rsvp_name">Euer Name</label><input class="form-input" type="text" name="name" required data-i18n="rsvp_name_ph"></div>
       <div class="form-group"><label class="form-label" data-i18n="rsvp_guests">Anzahl Personen</label><select class="form-select" name="guests"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option><option value="5+">5+</option></select></div>
       <div class="form-group"><label class="form-label" data-i18n="rsvp_attend">Zusage</label><div class="form-radio-group"><label class="form-radio"><input type="radio" name="attending" value="yes" checked><span data-i18n="rsvp_yes">Wir kommen gerne</span></label><label class="form-radio"><input type="radio" name="attending" value="no"><span data-i18n="rsvp_no">Leider nicht</span></label></div></div>
-      <div class="form-group"><label class="form-label" data-i18n="rsvp_food">Essenswünsche</label><select class="form-select" name="food"><option value="none" data-i18n-value="rsvp_food_none">Keine besonderen Wünsche</option><option value="vegetarian" data-i18n-value="rsvp_food_veg">Vegetarisch</option><option value="vegan" data-i18n-value="rsvp_food_vegan">Vegan</option><option value="halal" data-i18n-value="rsvp_food_halal">Halal</option></select></div>
-      <div class="form-group"><label class="form-label" data-i18n="rsvp_allergies">Allergien / Anmerkungen</label><textarea class="form-textarea" name="allergies" data-i18n="rsvp_allergies_ph"></textarea></div>
       <button type="submit" class="btn" data-i18n="rsvp_submit">Absenden</button>
     </form>
     <div class="form-success" id="rsvp-success">
@@ -201,20 +198,6 @@
   </div>
 </section>
 
-<!-- ==================== MUSIC ==================== -->
-<section id="musik">
-  <div class="fade-in">
-    <p class="section-label" data-i18n="music_label">Musikwünsche</p>
-    <h2 class="section-title" data-i18n="music_title">Was sollen wir spielen?</h2>
-  </div>
-  <div class="fade-in">
-    <form class="music-form" id="music-form" action="#" method="POST">
-      <div class="form-group"><label class="form-label" data-i18n="music_name">Euer Name</label><input class="form-input" type="text" name="name" required></div>
-      <div class="form-group"><label class="form-label" data-i18n="music_song">Song-Wunsch</label><input class="form-input" type="text" name="song" required data-i18n="music_song_ph"></div>
-      <button type="submit" class="btn btn-outline" data-i18n="music_submit">Wunsch absenden</button>
-    </form>
-  </div>
-</section>
 
 
 <!-- ==================== BARTIN MAP ==================== -->
@@ -260,52 +243,6 @@
 <section>
   <div class="fade-in">
     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d95890.7!2d32.3!3d41.63!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4089b0e79c3e8e4d%3A0x2c4356e68c1ae9a3!2sBart%C4%B1n%2C%20Turkey!5e0!3m2!1str!2str!4v1710000000000" width="100%" height="300" style="border:1px solid var(--gold-dim);filter:grayscale(0.6) brightness(0.7) contrast(1.1);" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-  </div>
-</section>
-
-<!-- ==================== FAQ ==================== -->
-<section id="faq">
-  <div class="fade-in">
-    <p class="section-label" data-i18n="faq_label">Fragen &amp; Antworten</p>
-    <h2 class="section-title" data-i18n="faq_title">Häufige Fragen</h2>
-  </div>
-  <div class="fade-in">
-    <div class="faq-list">
-      <div class="faq-item"><button class="faq-question" data-i18n="faq1_q">Was ist der Dresscode?</button><div class="faq-answer" data-i18n="faq1_a">Festlich elegant. Tragt, worin ihr euch wohlfühlt — Hauptsache, ihr feiert mit uns!</div></div>
-      <div class="faq-item"><button class="faq-question" data-i18n="faq3_q">Gibt es Parkplätze?</button><div class="faq-answer" data-i18n="faq3_a">Ja, ausreichend Parkplätze stehen direkt an der Location zur Verfügung.</div></div>
-      <div class="faq-item"><button class="faq-question" data-i18n="faq4_q">Was wünscht ihr euch als Geschenk?</button><div class="faq-answer" data-i18n="faq4_a">Euer Kommen ist uns das größte Geschenk! Solltet ihr uns dennoch etwas schenken wollen, freuen wir uns über einen Beitrag zu unserer gemeinsamen Zukunft.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== NAZAR BONCUK ==================== -->
-<section class="nazar-section">
-  <div class="fade-in">
-    <svg class="nazar-eye" id="nazar-eye" viewBox="0 0 120 120" width="120" height="120">
-      <circle cx="60" cy="60" r="55" fill="#0d2b6b" stroke="#1a3d7a" stroke-width="2"/>
-      <circle cx="60" cy="60" r="42" fill="#4da6ff"/>
-      <circle cx="60" cy="60" r="28" fill="#fff"/>
-      <circle cx="60" cy="60" r="16" fill="#0a0a0a"/>
-      <circle cx="53" cy="53" r="4" fill="rgba(255,255,255,0.6)"/>
-    </svg>
-    <p class="section-label" style="margin-top:20px" data-i18n="nazar_text">Nazar değmesin</p>
-  </div>
-</section>
-
-<!-- ==================== TÜRKEI FLAGGE DIVIDER ==================== -->
-<section class="flag-divider-section">
-  <div class="fade-in">
-    <div class="flag-divider">
-      <div class="flag-line"></div>
-      <svg class="flag-emblem" viewBox="0 0 80 50" width="160" height="100">
-        <!-- Halbmond -->
-        <circle cx="32" cy="25" r="16" fill="none" stroke="#E30A17" stroke-width="2.5"/>
-        <circle cx="37" cy="25" r="13" fill="#0a0f14"/>
-        <!-- Stern -->
-        <polygon points="58,25 52,28 54,34 49,30 44,33 46,27 42,23 48,23 50,17 53,23" fill="#E30A17"/>
-      </svg>
-      <div class="flag-line"></div>
-    </div>
   </div>
 </section>
 

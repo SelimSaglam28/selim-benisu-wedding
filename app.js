@@ -1,5 +1,5 @@
 // ============================================================
-// Selim & Benisu Bartin — Wedding Website
+// Bengisu & Selim Bartin — Wedding Website
 // ============================================================
 
 // ---------- i18n Translations ----------
@@ -52,7 +52,7 @@ const translations = {
     faq3_q: 'Gibt es Parkplätze?', faq3_a: 'Ja, ausreichend Parkplätze stehen direkt an der Location zur Verfügung.',
     faq4_q: 'Was wünscht ihr euch als Geschenk?', faq4_a: 'Ein Grundstück in Ettringen',
     nazar_text: 'Nazar değmesin',
-    footer_names: 'Selim & Benisu', footer_date: '12 · 09 · 2026',
+    footer_names: 'Bengisu & Selim', footer_date: '12 · 09 · 2026',
   },
   tr: {
     nav_details: 'Detaylar', nav_ablauf: 'Program', nav_rsvp: 'RSVP',
@@ -101,7 +101,7 @@ const translations = {
     faq3_q: 'Otopark var mı?', faq3_a: 'Evet, mekanın yanında yeterli otopark alanı mevcuttur.',
     faq4_q: 'Hediye olarak ne istersiniz?', faq4_a: 'Ettringen\'de bir arsa',
     nazar_text: 'Nazar değmesin',
-    footer_names: 'Selim & Benisu', footer_date: '12 · 09 · 2026',
+    footer_names: 'Bengisu & Selim', footer_date: '12 · 09 · 2026',
   }
 };
 
@@ -319,7 +319,7 @@ function initMusic() {
 
 // ---------- Save to Calendar ----------
 function saveToCalendar() {
-  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','BEGIN:VEVENT','DTSTART:20260912T120000Z','DTEND:20260913T020000Z','SUMMARY:Nisan - Selim & Benisu Bartin','DESCRIPTION:Nisanlaniyoruz! Kutlayin bizimle.','LOCATION:Wird noch bekannt gegeben','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','BEGIN:VEVENT','DTSTART:20260912T120000Z','DTEND:20260913T020000Z','SUMMARY:Nisan - Bengisu & Selim Bartin','DESCRIPTION:Nisanlaniyoruz! Kutlayin bizimle.','LOCATION:Wird noch bekannt gegeben','END:VEVENT','END:VCALENDAR'].join('\r\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([ics], {type:'text/calendar'}));
   a.download = 'hochzeit-selim-benisu.ics';
