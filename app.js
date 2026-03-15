@@ -405,61 +405,82 @@ async function initSTLViewer() {
   });
 }
 
-// ---------- Flying Butterfly (SVG + CSS 3D perspective flap) ----------
+// ---------- Flying Plane with Contrail ----------
 function initButterfly() {
   if (window.innerWidth < 768) return;
 
   const el = document.createElement('div');
-  el.className = 'lottie-butterfly';
-  // Schmetterling aus 2 separaten Flügel-Gruppen — CSS macht den 3D-Flap
-  el.innerHTML = `<svg viewBox="0 0 100 80" width="100%" height="100%">
-    <g class="wing-l">
-      <path d="M50,40 C42,25 25,10 15,18 C5,26 8,38 18,35 C28,32 40,38 50,40" fill="#C4A265" opacity="0.8"/>
-      <path d="M50,40 C42,48 22,58 15,52 C8,46 12,36 22,38 C32,40 42,40 50,40" fill="#C4A265" opacity="0.6"/>
-    </g>
-    <g class="wing-r">
-      <path d="M50,40 C58,25 75,10 85,18 C95,26 92,38 82,35 C72,32 60,38 50,40" fill="#C4A265" opacity="0.8"/>
-      <path d="M50,40 C58,48 78,58 85,52 C92,46 88,36 78,38 C68,40 58,40 50,40" fill="#C4A265" opacity="0.6"/>
-    </g>
-    <ellipse cx="50" cy="40" rx="1.5" ry="10" fill="#C4A265"/>
-    <path d="M49,30 Q44,22 42,18" fill="none" stroke="#C4A265" stroke-width="1" stroke-linecap="round"/>
-    <path d="M51,30 Q56,22 58,18" fill="none" stroke="#C4A265" stroke-width="1" stroke-linecap="round"/>
-    <circle cx="42" cy="18" r="1.5" fill="#C4A265"/>
-    <circle cx="58" cy="18" r="1.5" fill="#C4A265"/>
+  el.className = 'flying-plane';
+  // Flugzeug zeigt nach RECHTS (Nase = rechts)
+  el.innerHTML = `<svg width="36" height="36" viewBox="0 0 100 100">
+    <!-- Rumpf -->
+    <path d="M15,50 L85,50" stroke="#C4A265" stroke-width="4" stroke-linecap="round"/>
+    <!-- Nase -->
+    <path d="M85,50 L95,50" stroke="#C4A265" stroke-width="3" stroke-linecap="round"/>
+    <!-- Hauptflügel -->
+    <path d="M45,50 L35,25 L55,50" fill="#C4A265" opacity="0.7"/>
+    <path d="M45,50 L35,75 L55,50" fill="#C4A265" opacity="0.7"/>
+    <!-- Heckflügel -->
+    <path d="M18,50 L12,35 L25,50" fill="#C4A265" opacity="0.5"/>
+    <path d="M18,50 L12,65 L25,50" fill="#C4A265" opacity="0.5"/>
+    <!-- Heckflosse -->
+    <path d="M15,50 L10,38 L22,50" fill="#C4A265" opacity="0.6"/>
   </svg>`;
   document.body.appendChild(el);
 
-  let x = Math.random() * window.innerWidth * 0.6 + window.innerWidth * 0.2;
-  let y = Math.random() * window.innerHeight * 0.3 + 80;
-  let vx = (Math.random() - 0.5) * 1.5;
-  let vy = (Math.random() - 0.5) * 0.6;
-  let targetVx = vx, targetVy = vy;
-  let t = Math.random() * 100;
+  let x = -60;
+  let y = Math.random() * window.innerHeight * 0.35 + 60;
+  const speed = 1.8;
+  let angle = 0;
+  let targetAngle = 0;
+  let lastTrailTime = 0;
 
+  // Sanft Kurs ändern
   setInterval(() => {
-    targetVx = (Math.random() - 0.5) * 2;
-    targetVy = (Math.random() - 0.5) * 1.2;
-  }, 3000 + Math.random() * 3000);
+    targetAngle = (Math.random() - 0.5) * 40; // -20° bis +20°
+  }, 3000 + Math.random() * 2000);
 
-  function animate() {
-    t += 0.015;
-    vx += (targetVx - vx) * 0.008;
-    vy += (targetVy - vy) * 0.008;
-    x += vx + Math.sin(t * 1.2) * 0.5;
-    y += vy + Math.cos(t * 0.8) * 0.4;
-    const W = window.innerWidth, H = window.innerHeight;
-    if (x < -80) x = W + 40;
-    if (x > W + 80) x = -40;
-    if (y < -40) y = H * 0.5;
-    if (y > H * 0.6) y = 40;
-    // Tilt slightly in flight direction
-    const angle = Math.atan2(vy, vx) * (180 / Math.PI);
+  function spawnTrail() {
+    const trail = document.createElement('div');
+    trail.className = 'contrail';
+    trail.style.left = (x + 10) + 'px';
+    trail.style.top = (y + 16) + 'px';
+    trail.style.width = '60px';
+    trail.style.transform = `rotate(${angle}deg)`;
+    document.body.appendChild(trail);
+    setTimeout(() => trail.remove(), 2000);
+  }
+
+  function animate(time) {
+    // Sanft zum Zielwinkel lenken
+    angle += (targetAngle - angle) * 0.01;
+    const rad = angle * Math.PI / 180;
+    x += Math.cos(rad) * speed;
+    y += Math.sin(rad) * speed;
+
+    // Contrail alle 80ms
+    if (time - lastTrailTime > 80) {
+      spawnTrail();
+      lastTrailTime = time;
+    }
+
+    // Wenn rechts raus → links wieder rein, neue Höhe
+    if (x > window.innerWidth + 100) {
+      x = -80;
+      y = Math.random() * window.innerHeight * 0.4 + 50;
+      angle = (Math.random() - 0.5) * 10;
+      targetAngle = angle;
+    }
+    // Oben/unten begrenzen
+    if (y < 30) targetAngle = Math.abs(targetAngle);
+    if (y > window.innerHeight * 0.55) targetAngle = -Math.abs(targetAngle);
+
     el.style.left = x + 'px';
     el.style.top = y + 'px';
-    el.style.transform = `rotate(${angle * 0.3}deg)`;
+    el.style.transform = `rotate(${angle}deg)`;
     requestAnimationFrame(animate);
   }
-  animate();
+  requestAnimationFrame(animate);
 }
 
 // ---------- Init ----------
