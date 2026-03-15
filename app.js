@@ -486,31 +486,16 @@ function initButterfly() {
   function animate(time) {
     if (doingHeart) {
       heartT += 0.02;
-      const targetX = heartCX + heartDir * hx(heartT);
-      const targetY = heartCY + hy(heartT);
+      // Direct position on curve — no blend, no lerp
+      px = heartCX + heartDir * hx(heartT);
+      py = heartCY + hy(heartT);
 
-      // How far into the heart are we? (0..1)
-      const progress = (heartT - Math.PI) / (2 * Math.PI);
-      // Blend factor: smooth in first 10% and last 10%, direct in middle
-      const blend = progress < 0.1 ? progress / 0.1
-                  : progress > 0.9 ? (1 - progress) / 0.1
-                  : 1;
-
-      // Lerp position at entry/exit, direct in the middle
-      if (blend >= 0.95) {
-        px = targetX;
-        py = targetY;
-      } else {
-        px += (targetX - px) * (0.05 + blend * 0.15);
-        py += (targetY - py) * (0.05 + blend * 0.15);
-      }
-
-      // Angle from derivative — gentle lerp for smooth turning
+      // Angle from derivative
       const dx = heartDir * dhx(heartT), dy = dhy(heartT);
       const len = Math.sqrt(dx*dx + dy*dy);
       if (len > 0.3) {
         const targetA = Math.atan2(dy, dx) * (180 / Math.PI);
-        lerpAngle(targetA, 0.05);
+        lerpAngle(targetA, 0.08);
       }
 
       // Heart complete
