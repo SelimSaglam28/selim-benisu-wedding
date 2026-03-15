@@ -478,14 +478,20 @@ function initButterfly() {
   function animate(time) {
     if (doingHeart) {
       // Follow heart curve — heart starts at current position
-      heartT += 0.015;
-      px = heartCX + hx(heartT);
-      py = heartCY + hy(heartT);
+      heartT += 0.01;
+      const targetX = heartCX + hx(heartT);
+      const targetY = heartCY + hy(heartT);
+      // Smoothly move towards heart position (no hard snap)
+      px += (targetX - px) * 0.12;
+      py += (targetY - py) * 0.12;
 
-      // Smooth angle from tangent
-      const nt = heartT + 0.04;
-      const tangentA = Math.atan2(hy(nt) - hy(heartT), hx(nt) - hx(heartT)) * (180 / Math.PI);
-      lerpAngle(tangentA, 0.15);
+      // Smooth angle from actual movement direction
+      const dx = targetX - px;
+      const dy = targetY - py;
+      if (Math.abs(dx) > 0.01 || Math.abs(dy) > 0.01) {
+        const tangentA = Math.atan2(dy, dx) * (180 / Math.PI);
+        lerpAngle(tangentA, 0.06);
+      }
 
       // Heart complete (started at π, full circle = 3π)
       if (heartT >= Math.PI * 3) {
