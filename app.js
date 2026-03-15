@@ -427,12 +427,13 @@ function initButterfly() {
   let lastTrailTime = 0;
   const speed = 1.8;
   let targetAngle = 0;
-  const DOT_LIFE = 90000; // 90 seconds
+  const DOT_LIFE = 300000; // 5 min for testing
 
   // Heart state
   let doingHeart = false;
   let heartT = 0;
   let heartCX = 0, heartCY = 0;
+  let heartDir = 1; // 1 = normal, -1 = mirrored
   const heartSize = 80;
 
   // Heart parametric: x(t) = 16sin³(t), y(t) = -(13cos - 5cos2 - 2cos3 - cos4)
@@ -464,8 +465,13 @@ function initButterfly() {
     setTimeout(() => {
       if (!doingHeart) {
         doingHeart = true;
-        heartT = Math.PI + 0.1; // Slightly past the cusp to avoid 0-derivative
-        heartCX = px - hx(Math.PI + 0.1);
+        heartT = Math.PI + 0.1;
+        // Mirror heart based on flight direction
+        // Flying right (angle -90..90): normal heart (right side first)
+        // Flying left: mirror (negate x)
+        const flyingRight = angle > -90 && angle < 90;
+        heartDir = flyingRight ? 1 : -1;
+        heartCX = px - heartDir * hx(Math.PI + 0.1);
         heartCY = py - hy(Math.PI + 0.1);
       }
     }, delay);
@@ -479,13 +485,13 @@ function initButterfly() {
 
   function animate(time) {
     if (doingHeart) {
-      // Direct position on curve
+      // Direct position on curve (heartDir mirrors x if needed)
       heartT += 0.02;
-      px = heartCX + hx(heartT);
+      px = heartCX + heartDir * hx(heartT);
       py = heartCY + hy(heartT);
 
-      // Angle from derivative — but LERPED for smooth turning
-      const dx = dhx(heartT), dy = dhy(heartT);
+      // Angle from derivative — mirrored dx if needed
+      const dx = heartDir * dhx(heartT), dy = dhy(heartT);
       const len = Math.sqrt(dx*dx + dy*dy);
       if (len > 0.5) {
         const targetA = Math.atan2(dy, dx) * (180 / Math.PI);
@@ -495,7 +501,8 @@ function initButterfly() {
       // Heart complete (started at π, full circle = 3π)
       if (heartT >= Math.PI * 3) {
         doingHeart = false;
-        targetAngle = (Math.random() - 0.5) * 15;
+        // Continue in the direction the plane was heading when it exited
+        targetAngle = angle;
         scheduleHeart(20000 + Math.random() * 5000);
       }
     } else {
