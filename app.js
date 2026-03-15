@@ -8,20 +8,20 @@ const translations = {
     nav_details: 'Details', nav_ablauf: 'Ablauf', nav_rsvp: 'RSVP',
     nav_anreise: 'Anreise', nav_faq: 'FAQ', nav_3d: '3D', nav_bartin: 'Bartin',
     lang_btn: 'TR',
-    hero_label: 'Hochzeitseinladung', hero_subtitle: 'Wir heiraten',
+    hero_label: 'Verlobungseinladung', hero_subtitle: 'Wir verloben uns',
     hero_ampersand: '&', hero_family: 'BARTIN',
     cd_days: 'Tage', cd_hours: 'Std', cd_min: 'Min', cd_sec: 'Sek',
-    event_label: 'Die Feier', event_title: 'Wann & Wo',
+    event_label: 'Die Verlobung', event_title: 'Wann & Wo',
     detail_date_label: 'Datum', detail_date_value: '12. September 2026', detail_date_sub: 'Samstag',
     detail_time_label: 'Uhrzeit', detail_time_value: '14:00 Uhr', detail_time_sub: 'Einlass ab 13:30',
     detail_location_label: 'Location', detail_location_value: 'Wird noch bekannt gegeben', detail_location_sub: 'Details folgen',
     detail_dresscode_label: 'Dresscode', detail_dresscode_value: 'Festlich elegant', detail_dresscode_sub: 'Farben frei wählbar',
     cal_btn: 'Im Kalender speichern',
     timeline_label: 'Programm', timeline_title: 'Unser Tag',
-    tl1_time: '14:00', tl1_title: 'Trauung', tl1_desc: 'Die feierliche Zeremonie',
-    tl2_time: '15:30', tl2_title: 'Empfang', tl2_desc: 'Sektempfang & Gratulation',
-    tl3_time: '17:00', tl3_title: 'Abendessen', tl3_desc: 'Gemeinsames Festmahl',
-    tl4_time: '20:00', tl4_title: 'Party', tl4_desc: 'Tanzen bis in die Nacht',
+    tl1_time: '14:00', tl1_title: 'Söz Kesme', tl1_desc: 'Wortgabe & Segen der Familien',
+    tl2_time: '15:00', tl2_title: 'Yüzük Takma', tl2_desc: 'Ringzeremonie',
+    tl3_time: '16:00', tl3_title: 'Festmahl', tl3_desc: 'Gemeinsames Essen',
+    tl4_time: '18:00', tl4_title: 'Eğlence', tl4_desc: 'Musik, Tanz & Feier',
     rsvp_label: 'Zusage', rsvp_title: 'Seid ihr dabei?',
     rsvp_name: 'Euer Name', rsvp_name_ph: 'Vor- und Nachname',
     rsvp_guests: 'Anzahl Personen', rsvp_attend: 'Zusage',
@@ -50,7 +50,7 @@ const translations = {
     faq1_q: 'Was ist der Dresscode?', faq1_a: 'Festlich elegant. Tragt, worin ihr euch wohlfühlt — Hauptsache, ihr feiert mit uns!',
     faq2_q: 'Dürfen wir unsere Kinder mitbringen?', faq2_a: 'Natürlich! Kinder sind herzlich willkommen.',
     faq3_q: 'Gibt es Parkplätze?', faq3_a: 'Ja, ausreichend Parkplätze stehen direkt an der Location zur Verfügung.',
-    faq4_q: 'Was wünscht ihr euch als Geschenk?', faq4_a: 'Euer Kommen ist uns das größte Geschenk! Solltet ihr uns dennoch etwas schenken wollen, freuen wir uns über einen Beitrag zu unserer gemeinsamen Zukunft.',
+    faq4_q: 'Was wünscht ihr euch als Geschenk?', faq4_a: 'Ein Grundstück in Ettringen',
     nazar_text: 'Nazar değmesin',
     footer_names: 'Selim & Benisu', footer_date: '12 · 09 · 2026',
   },
@@ -58,20 +58,20 @@ const translations = {
     nav_details: 'Detaylar', nav_ablauf: 'Program', nav_rsvp: 'RSVP',
     nav_anreise: 'Ulaşım', nav_faq: 'SSS', nav_3d: '3D', nav_bartin: 'Bartın',
     lang_btn: 'DE',
-    hero_label: 'Düğün Davetiyesi', hero_subtitle: 'Evleniyoruz',
+    hero_label: 'Nişan Davetiyesi', hero_subtitle: 'Nişanlanıyoruz',
     hero_ampersand: '&', hero_family: 'BARTIN',
     cd_days: 'Gün', cd_hours: 'Saat', cd_min: 'Dk', cd_sec: 'Sn',
-    event_label: 'Kutlama', event_title: 'Ne Zaman & Nerede',
+    event_label: 'Nişan Töreni', event_title: 'Ne Zaman & Nerede',
     detail_date_label: 'Tarih', detail_date_value: '12 Eylül 2026', detail_date_sub: 'Cumartesi',
     detail_time_label: 'Saat', detail_time_value: '14:00', detail_time_sub: 'Giriş 13:30\'dan itibaren',
     detail_location_label: 'Mekan', detail_location_value: 'Yakında açıklanacak', detail_location_sub: 'Detaylar gelecek',
     detail_dresscode_label: 'Kıyafet', detail_dresscode_value: 'Şık & Zarif', detail_dresscode_sub: 'Renkler serbest',
     cal_btn: 'Takvime Kaydet',
     timeline_label: 'Program', timeline_title: 'Günümüz',
-    tl1_time: '14:00', tl1_title: 'Nikah', tl1_desc: 'Nikah töreni',
-    tl2_time: '15:30', tl2_title: 'Karşılama', tl2_desc: 'Kokteyl ve tebrikler',
-    tl3_time: '17:00', tl3_title: 'Yemek', tl3_desc: 'Birlikte akşam yemeği',
-    tl4_time: '20:00', tl4_title: 'Parti', tl4_desc: 'Sabaha kadar dans',
+    tl1_time: '14:00', tl1_title: 'Söz Kesme', tl1_desc: 'Ailelerin sözü ve duası',
+    tl2_time: '15:00', tl2_title: 'Yüzük Takma', tl2_desc: 'Yüzük töreni',
+    tl3_time: '16:00', tl3_title: 'Yemek', tl3_desc: 'Birlikte yemek',
+    tl4_time: '18:00', tl4_title: 'Eğlence', tl4_desc: 'Müzik, dans ve kutlama',
     rsvp_label: 'Katılım', rsvp_title: 'Gelecek misiniz?',
     rsvp_name: 'Adınız', rsvp_name_ph: 'Ad ve Soyad',
     rsvp_guests: 'Kişi Sayısı', rsvp_attend: 'Katılım',
@@ -99,13 +99,13 @@ const translations = {
     faq1_q: 'Kıyafet kuralı nedir?', faq1_a: 'Şık ve zarif. Kendinizi rahat hissettiğiniz kıyafeti giyin!',
     faq2_q: 'Çocuklarımızı getirebilir miyiz?', faq2_a: 'Tabii ki! Çocuklar hoş gelir.',
     faq3_q: 'Otopark var mı?', faq3_a: 'Evet, mekanın yanında yeterli otopark alanı mevcuttur.',
-    faq4_q: 'Hediye olarak ne istersiniz?', faq4_a: 'Gelmeniz bizim için en büyük hediye!',
+    faq4_q: 'Hediye olarak ne istersiniz?', faq4_a: 'Ettringen\'de bir arsa',
     nazar_text: 'Nazar değmesin',
     footer_names: 'Selim & Benisu', footer_date: '12 · 09 · 2026',
   }
 };
 
-let currentLang = localStorage.getItem('wedding-lang') || 'de';
+let currentLang = localStorage.getItem('wedding-lang') || 'tr';
 
 function setLanguage(lang) {
   currentLang = lang;
@@ -319,7 +319,7 @@ function initMusic() {
 
 // ---------- Save to Calendar ----------
 function saveToCalendar() {
-  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','BEGIN:VEVENT','DTSTART:20260912T120000Z','DTEND:20260913T020000Z','SUMMARY:Hochzeit Selim & Benisu Bartin','DESCRIPTION:Wir heiraten! Feiert mit uns.','LOCATION:Wird noch bekannt gegeben','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','BEGIN:VEVENT','DTSTART:20260912T120000Z','DTEND:20260913T020000Z','SUMMARY:Nisan - Selim & Benisu Bartin','DESCRIPTION:Nisanlaniyoruz! Kutlayin bizimle.','LOCATION:Wird noch bekannt gegeben','END:VEVENT','END:VCALENDAR'].join('\r\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([ics], {type:'text/calendar'}));
   a.download = 'hochzeit-selim-benisu.ics';
