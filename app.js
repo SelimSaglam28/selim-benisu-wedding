@@ -405,22 +405,17 @@ async function initSTLViewer() {
   });
 }
 
-// ---------- Flying Plane with Contrail ----------
+// ---------- Flying Plane with Contrail + Heart ----------
 function initButterfly() {
   if (window.innerWidth < 768) return;
 
   const el = document.createElement('div');
   el.className = 'flying-plane';
-  // Flugzeug zeigt nach RECHTS (Nase = rechts)
-  el.innerHTML = `<svg width="32" height="32" viewBox="0 0 100 100">
-    <!-- Rumpf (kürzer) -->
+  el.innerHTML = `<svg width="44" height="44" viewBox="0 0 100 100">
     <path d="M30,50 L75,50" stroke="#C4A265" stroke-width="5" stroke-linecap="round"/>
-    <!-- Nase -->
     <path d="M75,50 L88,50" stroke="#C4A265" stroke-width="3.5" stroke-linecap="round"/>
-    <!-- Hauptflügel (breiter, kürzer) -->
     <path d="M48,50 L40,22 L58,50" fill="#C4A265" opacity="0.8"/>
     <path d="M48,50 L40,78 L58,50" fill="#C4A265" opacity="0.8"/>
-    <!-- Heckflügel -->
     <path d="M32,50 L26,38 L38,50" fill="#C4A265" opacity="0.6"/>
     <path d="M32,50 L26,62 L38,50" fill="#C4A265" opacity="0.6"/>
   </svg>`;
@@ -433,44 +428,99 @@ function initButterfly() {
   let targetAngle = 0;
   let lastTrailTime = 0;
 
-  // Sanft Kurs ändern
+  // Heart mode
+  let heartMode = false;
+  let heartT = 0;
+  let heartCenterX = 0, heartCenterY = 0;
+  const heartSize = 55;
+  const heartSpeed = 0.04;
+
+  // Start heart every 25-35s
+  function scheduleHeart() {
+    setTimeout(() => {
+      if (!heartMode) {
+        heartMode = true;
+        heartT = 0;
+        heartCenterX = Math.min(Math.max(x, 200), window.innerWidth - 200);
+        heartCenterY = Math.min(Math.max(y, 150), window.innerHeight * 0.4);
+      }
+      scheduleHeart();
+    }, 25000 + Math.random() * 10000);
+  }
+  scheduleHeart();
+
+  // Sanft Kurs ändern (nur im Normalmodus)
   setInterval(() => {
-    targetAngle = (Math.random() - 0.5) * 25; // -12° bis +12° — sanfter
+    if (!heartMode) targetAngle = (Math.random() - 0.5) * 25;
   }, 4000 + Math.random() * 3000);
 
-  function spawnTrail() {
+  function spawnDot(dotX, dotY, lifetime) {
     const dot = document.createElement('div');
     dot.className = 'contrail-dot';
-    const rad = angle * Math.PI / 180;
-    dot.style.left = (x + 16 - Math.cos(rad) * 24) + 'px';
-    dot.style.top = (y + 16 - Math.sin(rad) * 24) + 'px';
+    dot.style.left = dotX + 'px';
+    dot.style.top = dotY + 'px';
     document.body.appendChild(dot);
-    setTimeout(() => dot.remove(), 3000);
+    setTimeout(() => dot.remove(), lifetime);
+  }
+
+  // Heart parametric: x = 16sin³(t), y = -(13cos(t) - 5cos(2t) - 2cos(3t) - cos(4t))
+  function heartX(t) { return heartSize * Math.pow(Math.sin(t), 3); }
+  function heartY(t) {
+    return -heartSize * (0.8125*Math.cos(t) - 0.3125*Math.cos(2*t) - 0.125*Math.cos(3*t) - 0.0625*Math.cos(4*t));
   }
 
   function animate(time) {
-    // Sanft zum Zielwinkel lenken
-    angle += (targetAngle - angle) * 0.006;
-    const rad = angle * Math.PI / 180;
-    x += Math.cos(rad) * speed;
-    y += Math.sin(rad) * speed;
+    if (heartMode) {
+      // Folge Herz-Kurve
+      heartT += heartSpeed;
+      const hx = heartCenterX + heartX(heartT);
+      const hy = heartCenterY + heartY(heartT);
 
-    // Contrail alle 80ms
-    if (time - lastTrailTime > 80) {
-      spawnTrail();
-      lastTrailTime = time;
-    }
+      // Winkel aus Bewegungsrichtung
+      const nextT = heartT + 0.01;
+      const dx = heartX(nextT) - heartX(heartT);
+      const dy = heartY(nextT) - heartY(heartT);
+      angle = Math.atan2(dy, dx) * (180 / Math.PI);
 
-    // Wenn rechts raus → links wieder rein, neue Höhe
-    if (x > window.innerWidth + 100) {
-      x = -80;
-      y = Math.random() * window.innerHeight * 0.4 + 50;
-      angle = (Math.random() - 0.5) * 10;
-      targetAngle = angle;
+      x = hx - 22;
+      y = hy - 22;
+
+      // Herz-Dots (länger sichtbar)
+      if (time - lastTrailTime > 50) {
+        spawnDot(hx, hy, 5000);
+        lastTrailTime = time;
+      }
+
+      // Herz fertig (ein voller Durchlauf)
+      if (heartT >= Math.PI * 2) {
+        heartMode = false;
+        // Position für normalen Weiterflug
+        targetAngle = 0;
+      }
+    } else {
+      // Normaler Flug
+      angle += (targetAngle - angle) * 0.006;
+      const rad = angle * Math.PI / 180;
+      x += Math.cos(rad) * speed;
+      y += Math.sin(rad) * speed;
+
+      // Normale Dots
+      if (time - lastTrailTime > 80) {
+        const rad2 = angle * Math.PI / 180;
+        spawnDot(x + 22 - Math.cos(rad2) * 24, y + 22 - Math.sin(rad2) * 24, 3000);
+        lastTrailTime = time;
+      }
+
+      // Wrap
+      if (x > window.innerWidth + 100) {
+        x = -80;
+        y = Math.random() * window.innerHeight * 0.4 + 50;
+        angle = (Math.random() - 0.5) * 10;
+        targetAngle = angle;
+      }
+      if (y < 30) targetAngle = Math.abs(targetAngle);
+      if (y > window.innerHeight * 0.55) targetAngle = -Math.abs(targetAngle);
     }
-    // Oben/unten begrenzen
-    if (y < 30) targetAngle = Math.abs(targetAngle);
-    if (y > window.innerHeight * 0.55) targetAngle = -Math.abs(targetAngle);
 
     el.style.left = x + 'px';
     el.style.top = y + 'px';
