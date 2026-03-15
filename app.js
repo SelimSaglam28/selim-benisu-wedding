@@ -531,9 +531,10 @@ function initButterfly() {
         px = pt.x;
         py = pt.y;
 
-        // Dot every 3rd waypoint
-        if (heartIdx % 3 === 0) {
-          spawnDotAt(px, py);
+        // Dot every 6th waypoint (more spacing)
+        if (heartIdx % 6 === 0) {
+          const rad = angle * Math.PI / 180;
+          spawnDotAt(px - Math.cos(rad) * 30, py - Math.sin(rad) * 30);
         }
       }
     } else {
@@ -548,10 +549,11 @@ function initButterfly() {
       if (py < 30) targetAngle = Math.abs(targetAngle);
       if (py > window.innerHeight * 0.55) targetAngle = -Math.abs(targetAngle);
 
-      // Normal dots
+      // Normal dots — behind the tail
       const dt = time - lastTrailTime;
-      if (dt > 120) {
-        spawnDotAt(px, py);
+      if (dt > 200) {
+        const rad = angle * Math.PI / 180;
+        spawnDotAt(px - Math.cos(rad) * 30, py - Math.sin(rad) * 30);
         lastTrailTime = time;
       }
     }
