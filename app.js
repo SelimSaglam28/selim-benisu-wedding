@@ -39,6 +39,8 @@ const translations = {
     music_success: 'Danke für euren Musikwunsch!',
     '3d_label': 'Einladungskarte', '3d_title': 'Unsere Einladung in 3D',
     '3d_hint': 'Drehen & Zoomen mit Maus oder Touch',
+    photo_label: 'Fotos', photo_title: 'Teilt eure Momente', photo_drop: 'Fotos hierher ziehen oder klicken',
+    photo_uploading: 'Wird hochgeladen...', photo_done: 'Hochgeladen!', photo_error: 'Fehler beim Upload',
     bartin_label: 'Location', bartin_title: 'Bartın, Karadeniz',
     map_sea: 'SCHWARZES MEER', map_mountains: 'Küre Dağları',
     travel_label: 'Anreise & Unterkunft', travel_title: 'So kommt ihr hin',
@@ -88,6 +90,8 @@ const translations = {
     music_success: 'Müzik isteğiniz için teşekkürler!',
     '3d_label': 'Davetiye', '3d_title': '3D Davetiyemiz',
     '3d_hint': 'Fare veya dokunmatik ile döndür ve yakınlaştır',
+    photo_label: 'Fotoğraflar', photo_title: 'Anılarınızı paylaşın', photo_drop: 'Fotoğrafları sürükleyin veya tıklayın',
+    photo_uploading: 'Yükleniyor...', photo_done: 'Yüklendi!', photo_error: 'Yükleme hatası',
     bartin_label: 'Mekan', bartin_title: 'Bartın, Karadeniz',
     map_sea: 'KARADENİZ', map_mountains: 'Küre Dağları',
     travel_label: 'Ulaşım & Konaklama', travel_title: 'Nasıl Gelirsiniz',
@@ -341,6 +345,52 @@ function initMusic() {
       fetch(action, {method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}}).then(done).catch(done);
     } else { done(); }
   });
+}
+
+// ---------- Photo Upload ----------
+const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL'; // Replace with your Google Apps Script URL
+
+function initPhotoUpload() {
+  const area = document.getElementById('upload-area');
+  const input = document.getElementById('photo-input');
+  const status = document.getElementById('upload-status');
+  if (!area || !input) return;
+
+  area.addEventListener('click', () => input.click());
+  area.addEventListener('dragover', e => { e.preventDefault(); area.classList.add('dragover'); });
+  area.addEventListener('dragleave', () => area.classList.remove('dragover'));
+  area.addEventListener('drop', e => {
+    e.preventDefault();
+    area.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
+  });
+  input.addEventListener('change', () => handleFiles(input.files));
+
+  function handleFiles(files) {
+    if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL') {
+      status.innerHTML = '<div class="upload-progress">Apps Script URL not configured yet</div>';
+      return;
+    }
+    Array.from(files).forEach(file => {
+      if (!file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      const item = document.createElement('div');
+      item.className = 'upload-progress';
+      item.textContent = `${file.name} — ${translations[currentLang].photo_uploading}`;
+      status.appendChild(item);
+
+      reader.onload = () => {
+        const base64 = reader.result.split(',')[1];
+        fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({ file: base64, fileName: file.name, mimeType: file.type }),
+        })
+        .then(() => { item.textContent = `${file.name} — ${translations[currentLang].photo_done}`; })
+        .catch(() => { item.textContent = `${file.name} — ${translations[currentLang].photo_error}`; });
+      };
+      reader.readAsDataURL(file);
+    });
+  }
 }
 
 // ---------- Save to Calendar ----------
@@ -604,6 +654,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initRSVP();
   initMusic();
   initButterfly();
+  initPhotoUpload();
   setLanguage(currentLang);
   updateCountdown();
   setInterval(updateCountdown, 1000);

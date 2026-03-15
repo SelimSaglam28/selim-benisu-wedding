@@ -769,6 +769,46 @@ section {
   opacity: 0.35;
 }
 
+/* ========== FOTO UPLOAD ========== */
+.upload-area {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 50px 30px;
+  border: 2px dashed var(--gold-dim);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+}
+.upload-area:hover, .upload-area.dragover {
+  border-color: var(--gold);
+  background: rgba(196,162,101,0.05);
+}
+.upload-icon { font-size: 40px; margin-bottom: 12px; opacity: 0.6; }
+.upload-text {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  opacity: 0.6;
+}
+#upload-status {
+  max-width: 420px;
+  margin: 16px auto 0;
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--gold);
+  text-align: center;
+  letter-spacing: 2px;
+}
+.upload-progress {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: rgba(196,162,101,0.06);
+  border: 1px solid var(--gold-dim);
+  font-size: 11px;
+  color: var(--cream);
+}
+
 /* ========== FADE IN ========== */
 .fade-in {
   opacity: 0;
