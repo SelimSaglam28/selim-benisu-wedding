@@ -34,7 +34,6 @@
   <a href="#details" data-i18n="nav_details">Details</a>
   <a href="#ablauf" data-i18n="nav_ablauf">Ablauf</a>
   <a href="#rsvp" data-i18n="nav_rsvp">RSVP</a>
-  <a href="#3d-preview" data-i18n="nav_3d">3D</a>
   <a href="#bartin-map" data-i18n="nav_bartin">Bartin</a>
   <a href="#faq" data-i18n="nav_faq">FAQ</a>
 </nav>
@@ -107,16 +106,21 @@
       </div>
     </div>
   </div>
+  <a href="#monogram" class="scroll-arrow">&#8595;</a>
+</section>
+
+<!-- ==================== ANIMATED MONOGRAM ==================== -->
+<section id="monogram" class="monogram-section">
   <div class="fade-in">
-    <div class="infinity-badge">
-      <span class="infinity-letter">S</span>
-      <svg class="infinity-sign" viewBox="0 0 80 40" width="50" height="25">
-        <path d="M40,20 C40,8 28,8 20,15 C12,22 8,28 8,20 C8,12 14,8 20,15 M40,20 C40,32 52,32 60,25 C68,18 72,12 72,20 C72,28 66,32 60,25" fill="none" stroke="#C4A265" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-      <span class="infinity-letter">B</span>
-    </div>
+    <svg class="monogram-svg" viewBox="0 0 440 140" width="440" height="140">
+      <!-- S -->
+      <path class="mono-letter" d="M55,110 Q18,110 18,85 Q18,60 55,60 Q92,60 92,42 Q92,18 55,18 Q32,18 22,32" fill="none" stroke="#C4A265" stroke-width="3" stroke-linecap="round"/>
+      <!-- ∞ -->
+      <path class="mono-letter" d="M175,65 C175,40 200,35 215,50 C230,65 230,65 245,50 C260,35 285,40 285,65 C285,90 260,95 245,80 C230,65 230,65 215,80 C200,95 175,90 175,65 Z" fill="none" stroke="#C4A265" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- B -->
+      <path class="mono-letter" d="M340,110 L340,18 L375,18 Q408,18 408,42 Q408,60 380,62 Q414,65 414,88 Q414,110 375,110 Z" fill="none" stroke="#C4A265" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
   </div>
-  <a href="#details" class="scroll-arrow">&#8595;</a>
 </section>
 
 <!-- ==================== EVENT DETAILS ==================== -->
@@ -212,17 +216,6 @@
   </div>
 </section>
 
-<!-- ==================== 3D PREVIEW ==================== -->
-<section id="3d-preview">
-  <div class="fade-in">
-    <p class="section-label" data-i18n="3d_label">Einladungskarte</p>
-    <h2 class="section-title" data-i18n="3d_title">Unsere Einladung in 3D</h2>
-  </div>
-  <div class="fade-in">
-    <div id="stl-viewer"><div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--gold);font-family:var(--sans);font-size:11px;letter-spacing:4px;opacity:0.5">LOADING 3D...</div></div>
-    <p class="stl-hint" data-i18n="3d_hint">Drehen &amp; Zoomen mit Maus oder Touch</p>
-  </div>
-</section>
 
 <!-- ==================== BARTIN MAP ==================== -->
 <section id="bartin-map">
@@ -273,7 +266,7 @@
     </div>
   </div>
   <div class="fade-in">
-    <div class="map-placeholder" data-i18n="map_text">Google Maps wird hier eingebettet</div>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d95890.7!2d32.3!3d41.63!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4089b0e79c3e8e4d%3A0x2c4356e68c1ae9a3!2sBart%C4%B1n%2C%20Turkey!5e0!3m2!1sde!2sde!4v1710000000000" width="100%" height="300" style="border:1px solid var(--gold-dim);filter:grayscale(0.6) brightness(0.7) contrast(1.1);" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
   </div>
 </section>
 
@@ -336,8 +329,6 @@
   </div>
 </footer>
 
-<!-- Three.js for STL Viewer (loaded on demand) -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
