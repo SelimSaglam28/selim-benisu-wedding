@@ -409,6 +409,7 @@ async function initSTLViewer() {
 function initButterfly() {
   if (window.innerWidth < 768) return;
 
+  const SIZE = 22; // half of svg size
   const el = document.createElement('div');
   el.className = 'flying-plane';
   el.innerHTML = `<svg width="44" height="44" viewBox="0 0 100 100">
@@ -421,114 +422,142 @@ function initButterfly() {
   </svg>`;
   document.body.appendChild(el);
 
-  let x = -60;
-  let y = Math.random() * window.innerHeight * 0.35 + 60;
-  const speed = 1.8;
+  // Position = center of plane
+  let px = -60, py = 200;
   let angle = 0;
-  let targetAngle = 0;
   let lastTrailTime = 0;
+  const speed = 1.8;
+  let targetAngle = 0;
 
-  // Heart mode
-  let heartMode = false;
+  // Phases: 'fly' (normal), 'approach' (curve to heart start), 'heart' (draw heart), 'depart' (fly away)
+  let phase = 'fly';
   let heartT = 0;
-  let heartCenterX = 0, heartCenterY = 0;
-  const heartSize = 65;
-  const heartSpeed = 0.02;
+  let heartCX = 0, heartCY = 0;
+  const heartSize = 70;
 
-  // Start heart every 25-35s
-  function scheduleHeart() {
-    setTimeout(() => {
-      if (!heartMode) {
-        heartMode = true;
-        heartT = 0;
-        heartCenterX = Math.min(Math.max(x, 200), window.innerWidth - 200);
-        heartCenterY = Math.min(Math.max(y, 150), window.innerHeight * 0.4);
-      }
-      scheduleHeart();
-    }, 25000 + Math.random() * 10000);
+  // Heart parametric
+  function hx(t) { return heartSize * Math.pow(Math.sin(t), 3); }
+  function hy(t) { return -heartSize * (0.8125*Math.cos(t) - 0.3125*Math.cos(2*t) - 0.125*Math.cos(3*t) - 0.0625*Math.cos(4*t)); }
+
+  // Dot behind the tail
+  function tailPos() {
+    const rad = angle * Math.PI / 180;
+    return { x: px - Math.cos(rad) * 28, y: py - Math.sin(rad) * 28 };
   }
-  scheduleHeart();
 
-  // Sanft Kurs ändern (nur im Normalmodus)
-  setInterval(() => {
-    if (!heartMode) targetAngle = (Math.random() - 0.5) * 25;
-  }, 4000 + Math.random() * 3000);
-
-  function spawnDot(dotX, dotY, lifetime) {
+  function spawnDot(lifetime) {
     const dot = document.createElement('div');
     dot.className = 'contrail-dot';
-    dot.style.left = dotX + 'px';
-    dot.style.top = dotY + 'px';
+    const t = tailPos();
+    dot.style.left = t.x + 'px';
+    dot.style.top = t.y + 'px';
     document.body.appendChild(dot);
     setTimeout(() => dot.remove(), lifetime);
   }
 
-  // Heart parametric: x = 16sin³(t), y = -(13cos(t) - 5cos(2t) - 2cos(3t) - cos(4t))
-  function heartX(t) { return heartSize * Math.pow(Math.sin(t), 3); }
-  function heartY(t) {
-    return -heartSize * (0.8125*Math.cos(t) - 0.3125*Math.cos(2*t) - 0.125*Math.cos(3*t) - 0.0625*Math.cos(4*t));
+  // Smooth angle towards target
+  function lerpAngle(target, factor) {
+    let diff = target - angle;
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+    angle += diff * factor;
   }
 
+  // Schedule heart every 15-20s
+  function scheduleHeart() {
+    setTimeout(() => {
+      if (phase === 'fly') {
+        phase = 'approach';
+        // Heart center: somewhere in the middle of the screen
+        heartCX = window.innerWidth * 0.3 + Math.random() * window.innerWidth * 0.4;
+        heartCY = window.innerHeight * 0.15 + Math.random() * window.innerHeight * 0.25;
+        heartT = 0;
+      }
+      scheduleHeart();
+    }, 15000 + Math.random() * 5000);
+  }
+  scheduleHeart();
+
+  // Normal flight direction changes
+  setInterval(() => {
+    if (phase === 'fly') targetAngle = (Math.random() - 0.5) * 25;
+  }, 4000 + Math.random() * 3000);
+
   function animate(time) {
-    if (heartMode) {
-      // Folge Herz-Kurve — smooth
-      heartT += heartSpeed;
-      const hx = heartCenterX + heartX(heartT);
-      const hy = heartCenterY + heartY(heartT);
+    const dt = time - lastTrailTime;
 
-      // Smooth Winkel: berechne Zielwinkel, interpoliere sanft
-      const nextT = heartT + 0.05;
-      const dx = heartX(nextT) - heartX(heartT);
-      const dy = heartY(nextT) - heartY(heartT);
-      const targetA = Math.atan2(dy, dx) * (180 / Math.PI);
-      // Smooth angle lerp (handle 360° wrapping)
-      let diff = targetA - angle;
-      if (diff > 180) diff -= 360;
-      if (diff < -180) diff += 360;
-      angle += diff * 0.08;
-
-      x = hx - 22;
-      y = hy - 22;
-
-      // Herz-Dots: öfter spawnen, länger sichtbar
-      if (time - lastTrailTime > 35) {
-        spawnDot(hx, hy, 7000);
-        lastTrailTime = time;
-      }
-
-      // Herz fertig (ein voller Durchlauf)
-      if (heartT >= Math.PI * 2) {
-        heartMode = false;
-        // Position für normalen Weiterflug
-        targetAngle = 0;
-      }
-    } else {
-      // Normaler Flug
-      angle += (targetAngle - angle) * 0.006;
+    if (phase === 'fly') {
+      // Normal flight
+      lerpAngle(targetAngle, 0.006);
       const rad = angle * Math.PI / 180;
-      x += Math.cos(rad) * speed;
-      y += Math.sin(rad) * speed;
+      px += Math.cos(rad) * speed;
+      py += Math.sin(rad) * speed;
 
-      // Normale Dots
-      if (time - lastTrailTime > 80) {
-        const rad2 = angle * Math.PI / 180;
-        spawnDot(x + 22 - Math.cos(rad2) * 24, y + 22 - Math.sin(rad2) * 24, 3000);
-        lastTrailTime = time;
-      }
+      if (dt > 80) { spawnDot(3000); lastTrailTime = time; }
 
       // Wrap
-      if (x > window.innerWidth + 100) {
-        x = -80;
-        y = Math.random() * window.innerHeight * 0.4 + 50;
-        angle = (Math.random() - 0.5) * 10;
-        targetAngle = angle;
+      if (px > window.innerWidth + 100) { px = -60; py = Math.random() * window.innerHeight * 0.4 + 50; angle = 0; targetAngle = 0; }
+      if (py < 30) targetAngle = Math.abs(targetAngle);
+      if (py > window.innerHeight * 0.55) targetAngle = -Math.abs(targetAngle);
+
+    } else if (phase === 'approach') {
+      // Fly towards the heart start point (bottom of heart = heartCX, heartCY + heartSize)
+      const startX = heartCX + hx(0.001);
+      const startY = heartCY + hy(0.001);
+      const dx = startX - px, dy = startY - py;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      const targetA = Math.atan2(dy, dx) * (180 / Math.PI);
+      lerpAngle(targetA, 0.03);
+      const rad = angle * Math.PI / 180;
+      px += Math.cos(rad) * speed * 1.2;
+      py += Math.sin(rad) * speed * 1.2;
+
+      if (dt > 60) { spawnDot(4000); lastTrailTime = time; }
+
+      // Close enough → start heart
+      if (dist < 15) { phase = 'heart'; heartT = 0; }
+
+    } else if (phase === 'heart') {
+      // Follow heart curve
+      heartT += 0.018;
+      const curX = heartCX + hx(heartT);
+      const curY = heartCY + hy(heartT);
+
+      // Smooth angle from curve tangent
+      const nt = heartT + 0.04;
+      const tangentA = Math.atan2(hy(nt) - hy(heartT), hx(nt) - hx(heartT)) * (180 / Math.PI);
+      lerpAngle(tangentA, 0.12);
+
+      px = curX;
+      py = curY;
+
+      if (dt > 30) { spawnDot(15000); lastTrailTime = time; }
+
+      // Heart complete
+      if (heartT >= Math.PI * 2) {
+        phase = 'depart';
+        targetAngle = -30 + Math.random() * 20; // fly up-right
       }
-      if (y < 30) targetAngle = Math.abs(targetAngle);
-      if (y > window.innerHeight * 0.55) targetAngle = -Math.abs(targetAngle);
+
+    } else if (phase === 'depart') {
+      // Fly away after heart
+      lerpAngle(targetAngle, 0.008);
+      const rad = angle * Math.PI / 180;
+      px += Math.cos(rad) * speed * 1.5;
+      py += Math.sin(rad) * speed * 1.5;
+
+      if (dt > 60) { spawnDot(4000); lastTrailTime = time; }
+
+      // After flying far enough, return to normal
+      if (px > window.innerWidth + 80 || px < -80 || py < -80) {
+        phase = 'fly';
+        if (px > window.innerWidth) { px = -60; py = Math.random() * window.innerHeight * 0.4 + 50; }
+        angle = 0; targetAngle = 0;
+      }
     }
 
-    el.style.left = x + 'px';
-    el.style.top = y + 'px';
+    el.style.left = (px - SIZE) + 'px';
+    el.style.top = (py - SIZE) + 'px';
     el.style.transform = `rotate(${angle}deg)`;
     requestAnimationFrame(animate);
   }
