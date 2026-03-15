@@ -427,7 +427,7 @@ function initButterfly() {
   let lastTrailTime = 0;
   const speed = 1.8;
   let targetAngle = 0;
-  const DOT_LIFE = 60000;
+  const DOT_LIFE = 30000;
 
   // Heart: pre-computed waypoints
   let heartPoints = [];
@@ -435,18 +435,49 @@ function initButterfly() {
   let doingHeart = false;
   const heartSize = 80;
 
-  // Generate heart points: array of {x, y}
-  function generateHeart(cx, cy, dir) {
+  // Cubic bezier helper
+  function bezier(p0, p1, p2, p3, t) {
+    const u = 1 - t;
+    return {
+      x: u*u*u*p0.x + 3*u*u*t*p1.x + 3*u*t*t*p2.x + t*t*t*p3.x,
+      y: u*u*u*p0.y + 3*u*u*t*p1.y + 3*u*t*t*p2.y + t*t*t*p3.y
+    };
+  }
+
+  // Generate heart points with smooth entry curve
+  function generateHeart(startX, startY, startAngle, dir) {
     const pts = [];
-    const steps = 200;
-    for (let i = 0; i <= steps; i++) {
-      const t = Math.PI + (i / steps) * 2 * Math.PI; // π to 3π
-      const s = Math.sin(t), c = Math.cos(t);
+
+    // Heart tip position (where heart starts)
+    const tipT = Math.PI;
+    const tipX = startX + dir * heartSize * Math.pow(Math.sin(tipT), 3); // = startX (sin(π)=0)
+    const tipY = startY - heartSize * (0.8125*Math.cos(tipT) - 0.3125*Math.cos(2*tipT) - 0.125*Math.cos(3*tipT) - 0.0625*Math.cos(4*tipT));
+
+    // Smooth entry: bezier from current position to heart tip
+    // Control points extend in current flight direction
+    const rad = startAngle * Math.PI / 180;
+    const entryDist = 60;
+    const p0 = { x: startX, y: startY };
+    const p1 = { x: startX + Math.cos(rad) * entryDist, y: startY + Math.sin(rad) * entryDist };
+    const p2 = { x: tipX, y: tipY + 40 }; // approach from below
+    const p3 = { x: tipX, y: tipY };
+
+    const entrySteps = 30;
+    for (let i = 0; i <= entrySteps; i++) {
+      pts.push(bezier(p0, p1, p2, p3, i / entrySteps));
+    }
+
+    // Heart curve: π to 3π
+    const heartSteps = 200;
+    for (let i = 1; i <= heartSteps; i++) {
+      const t = Math.PI + (i / heartSteps) * 2 * Math.PI;
+      const s = Math.sin(t);
       pts.push({
-        x: cx + dir * heartSize * s * s * s,
-        y: cy - heartSize * (0.8125*c - 0.3125*Math.cos(2*t) - 0.125*Math.cos(3*t) - 0.0625*Math.cos(4*t))
+        x: startX + dir * heartSize * s * s * s,
+        y: startY - heartSize * (0.8125*Math.cos(t) - 0.3125*Math.cos(2*t) - 0.125*Math.cos(3*t) - 0.0625*Math.cos(4*t))
       });
     }
+
     return pts;
   }
 
@@ -466,7 +497,7 @@ function initButterfly() {
         doingHeart = true;
         const flyingRight = angle > -90 && angle < 90;
         const dir = flyingRight ? 1 : -1;
-        heartPoints = generateHeart(px, py, dir);
+        heartPoints = generateHeart(px, py, angle, dir);
         heartIdx = 0;
       }
     }, delay);
