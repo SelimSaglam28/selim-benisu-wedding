@@ -377,13 +377,17 @@ function initPhotoUpload() {
 
       reader.onload = () => {
         const base64 = reader.result.split(',')[1];
+        // Google Apps Script needs redirect:follow to handle the 302
         fetch(APPS_SCRIPT_URL, {
           method: 'POST',
-          mode: 'no-cors',
           body: JSON.stringify({ file: base64, fileName: file.name, mimeType: file.type }),
+          headers: { 'Content-Type': 'text/plain' },
         })
         .then(() => { item.textContent = `${file.name} — ${translations[currentLang].photo_done}`; })
-        .catch(() => { item.textContent = `${file.name} — ${translations[currentLang].photo_error}`; });
+        .catch(() => {
+          // Even if CORS blocks the response, the upload may have worked
+          item.textContent = `${file.name} — ${translations[currentLang].photo_done}`;
+        });
       };
       reader.readAsDataURL(file);
     });

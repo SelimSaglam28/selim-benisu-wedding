@@ -772,6 +772,7 @@ section {
 /* ========== FOTO UPLOAD ========== */
 .upload-area {
   display: block;
+  position: relative;
   max-width: 500px;
   width: 100%;
   margin: 0 auto;
@@ -780,6 +781,7 @@ section {
   text-align: center;
   cursor: pointer;
   transition: border-color 0.3s, background 0.3s;
+  overflow: hidden;
 }
 .upload-area:hover, .upload-area.dragover {
   border-color: var(--gold);
